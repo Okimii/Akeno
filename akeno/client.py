@@ -38,7 +38,7 @@ class AkenoClient:
         self.cache[tweet_id] = t
         return t
     
-    async def get_tweet(self, tweet_id: int) -> dict[Any, Any]:
+    def get_tweet(self, tweet_id: int) -> dict[Any, Any]:
         try:
             return self.cache[tweet_id]
         except KeyError:
