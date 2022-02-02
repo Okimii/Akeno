@@ -48,3 +48,11 @@ class AkenoClient:
         t = await self.request("GET", f"https://api.twitter.com/2/{','.join(tweet_ids)}", headers=self.headers)
         self.cache[tweet_ids[0]] = t
         return t
+    
+    async def like_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
+            t = await self.request("POST", f"https://api.twitter.com/2/users/{user_id}/likes/", headers={"Authorization" : f"Bearer {self.token}", "Content-type" : "application/json", "tweet_id" : f"{tweet_id}"})
+            return t
+    
+    async def unlike_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
+            t = await self.request("DELETE", f"https://api.twitter.com/2/users/{user_id}/likes/{tweet_id}", headers=self.headers)
+            return t
