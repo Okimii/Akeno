@@ -40,7 +40,7 @@ class AkenoClient:
     
     def get_tweet(self, tweet_id: int) -> dict[Any, Any]:
         try:
-            return self.cache[tweet_id]
+            self.cache[tweet_id]
         except KeyError:
             raise "No such tweet"
     
@@ -50,9 +50,19 @@ class AkenoClient:
         return t
     
     async def like_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
-            t = await self.request("POST", f"https://api.twitter.com/2/users/{user_id}/likes/", headers={"Authorization" : f"Bearer {self.token}", "Content-type" : "application/json", "tweet_id" : f"{tweet_id}"})
-            return t
+            return await self.request("POST", f"https://api.twitter.com/2/users/{user_id}/likes/", headers={"Authorization" : f"Bearer {self.token}", "Content-type" : "application/json", "tweet_id" : f"{tweet_id}"})
     
     async def unlike_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
-            t = await self.request("DELETE", f"https://api.twitter.com/2/users/{user_id}/likes/{tweet_id}", headers=self.headers)
-            return t
+            return await self.request("DELETE", f"https://api.twitter.com/2/users/{user_id}/likes/{tweet_id}", headers=self.headers)
+    
+    async def fetch_user(self, user_id: int ) -> dict[Any, Any]:
+        u = await self.request("GET", f"https://api.twitter.com/2/users/{user_id}", headers=self.headers)
+        self.cache[user_id] = u
+        return u
+    
+    def get_user(self, user_id: int) -> dict[Any, Any]:
+        try:
+            self.cache[user_id]
+        except KeyError:
+            raise "No such user"
+            
