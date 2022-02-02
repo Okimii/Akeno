@@ -27,7 +27,7 @@ class AkenoClient:
         try:
             if resp.headers["x-rate-limit-remaining"] == 1:
                 await self.lock.acquire()
-                asyncio.sleep(900)
+                await asyncio.sleep(900)
                 self.lock.release()
         except KeyError:
             return await resp.json()
