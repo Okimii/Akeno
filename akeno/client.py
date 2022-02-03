@@ -44,10 +44,26 @@ class AkenoClient:
         except KeyError:
             raise "No such tweet"
     
+    async def getch_tweet(self, tweet_id: int) -> dict[Any, Any]:
+        try:
+            return self.cache[tweet_id]
+        except KeyError:
+            t = await self.request("GET", f"https://api.twitter.com/2/tweets/{tweet_id}", headers=self.headers)
+            self.cache[tweet_id] = t
+            return t
+    
     async def fetch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
         t = await self.request("GET", f"https://api.twitter.com/2/{','.join(tweet_ids)}", headers=self.headers)
         self.cache[tweet_ids[0]] = t
         return t
+    
+    async def getch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
+        try:
+            return self.cache[tweet_ids[0]]
+        except KeyError:
+            t = await self.request("GET", f"https://api.twitter.com/2/{','.join(tweet_ids)}", headers=self.headers)
+            self.cache[tweet_ids[0]] = t
+            return t
     
     async def like_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
             return await self.request("POST", f"https://api.twitter.com/2/users/{user_id}/likes/", headers={"Authorization" : f"Bearer {self.token}", "Content-type" : "application/json", "tweet_id" : f"{tweet_id}"})
@@ -66,8 +82,32 @@ class AkenoClient:
         except KeyError:
             raise "No such user"
     
+    async def fetch_user(self, user_id: int ) -> dict[Any, Any]:
+        u = await self.request("GET", f"https://api.twitter.com/2/users/{user_id}", headers=self.headers)
+        self.cache[user_id] = u
+        return u
+    
+    async def getch_user(self, user_id: int ) -> dict[Any, Any]:
+        try:
+            return self.cache[user_id]
+        except KeyError:
+            u = await self.request("GET", f"https://api.twitter.com/2/users/{user_id}", headers=self.headers)
+            self.cache[user_id] = u
+            return u
+    
     async def fetch_user_profile_image(self, user_id: int) -> dict[Any, Any]:
         u = await self.request("GET", f"https://api.twitter.com/2/users/{user_id}?user.fields=profile_image_url", headers=self.headers)
         self.cache[user_id] = u
         return u['data']['profile_image_url']
+    
+    def get_user_profile_image(self, user_id: int) -> dict[Any, Any]:
+        return self.cache[user_id]['data']['profile_image_url']
+
+    async def getch_user_profile_image(self, user_id: int) -> dict[Any, Any]:
+        try:
+            return self.cache[user_id]['data']['profile_image_url']
+        except KeyError:
+            u = await self.request("GET", f"https://api.twitter.com/2/users/{user_id}?user.fields=profile_image_url", headers=self.headers)
+            self.cache[user_id] = u
+            return u['data']['profile_image_url']
     
