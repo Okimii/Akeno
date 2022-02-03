@@ -67,7 +67,7 @@ class AkenoClient:
             raise "No such user"
     
     async def fetch_user_profile_image(self, user_id: int) -> dict[Any, Any]:
-        u = await self.request("GET", f"https://api.twitter.com/2/users/{user_id}", headers=self.headers)
+        u = await self.request("GET", f"https://api.twitter.com/2/users/{user_id}?user.fields=profile_image_url", headers=self.headers)
         self.cache[user_id] = u
-        return u
+        return u['data']['profile_image_url']
     
