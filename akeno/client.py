@@ -38,7 +38,7 @@ class AkenoClient:
         self.cache[tweet_id] = t
         return t
     
-    def get_tweet(self, tweet_id: int) -> dict[Any, Any]:
+    def get_tweet(self, tweet_id: int) -> None:
         try:
             self.cache[tweet_id]
         except KeyError:
@@ -60,9 +60,14 @@ class AkenoClient:
         self.cache[user_id] = u
         return u
     
-    def get_user(self, user_id: int) -> dict[Any, Any]:
+    def get_user(self, user_id: int) -> None:
         try:
             self.cache[user_id]
         except KeyError:
             raise "No such user"
-            
+    
+    async def fetch_user_profile_image(self, user_id: int) -> dict[Any, Any]:
+        u = await self.request("GET", f"https://api.twitter.com/2/users/{user_id}", headers=self.headers)
+        self.cache[user_id] = u
+        return u
+    
