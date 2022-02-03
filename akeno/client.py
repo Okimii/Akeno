@@ -100,9 +100,13 @@ class AkenoClient:
         self.cache[user_id] = u
         return u['data']['profile_image_url']
     
+    
     def get_user_profile_image(self, user_id: int) -> dict[Any, Any]:
-        return self.cache[user_id]['data']['profile_image_url']
-
+        try:
+            return self.cache[user_id]['data']['profile_image_url']
+        except KeyError:
+            raise "No such user profile image"
+            
     async def getch_user_profile_image(self, user_id: int) -> dict[Any, Any]:
         try:
             return self.cache[user_id]['data']['profile_image_url']
