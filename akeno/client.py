@@ -65,11 +65,7 @@ class AkenoClient:
         ----------
         tweet_id :class: `int` id of the tweet youre trying to get.
         """
-
-        try:
-            self.cache[tweet_id]
-        except KeyError:
-            raise "No such tweet"
+        return self.cache[tweet_id]
 
     async def getch_tweet(self, tweet_id: int) -> dict[Any, Any]:
         """
@@ -90,12 +86,12 @@ class AkenoClient:
             self.cache[tweet_id] = t
             return t
 
-    async def fetch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
+    async def fetch_tweets(self, *tweet_ids: str) -> dict[Any, Any]:
         """
         Makes a request to the api to get tweets.
         Parameters
         ----------
-        tweet_ids :class: `int` ids of the tweet youre trying to fetch.
+        tweet_ids :class: `str` ids of the tweet youre trying to fetch.
         """
         t = await self.request(
             "GET",
@@ -177,10 +173,7 @@ class AkenoClient:
         ----------
         user_id :class: `int` id of the user youre trying to get.
         """
-        try:
-            self.cache[user_id]
-        except KeyError:
-            raise "No such user"
+        return self.cache[user_id]
 
     async def getch_user(self, user_id: int) -> dict[Any, Any]:
         """
@@ -222,10 +215,7 @@ class AkenoClient:
         ----------
         user_id :class: `int` id of the user youre trying to get.
         """
-        try:
-            return self.cache[user_id]["data"]["profile_image_url"]
-        except KeyError:
-            raise "No such user profile image"
+        return self.cache[user_id]["data"]["profile_image_url"]
 
     async def getch_user_profile_image(self, user_id: int) -> dict[Any, Any]:
         """
@@ -259,3 +249,4 @@ class AkenoClient:
         )
         self.cache[user_id] = u
         return u["data"]["created_at"]
+
