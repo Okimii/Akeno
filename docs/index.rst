@@ -10,9 +10,9 @@ Welcome to akeno's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+.. automodule:: akeno
+   :members:
 
-
-Indices and tables
 ==================
 
 * :ref:`genindex`
