@@ -5,12 +5,13 @@
 
 Welcome to akeno's documentation!
 =================================
+.. currentmodule:: akeno
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-.. automodule:: akeno
+.. autoclass:: AkenoClient
    :members:
 
 ==================
