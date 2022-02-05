@@ -12,6 +12,11 @@ class AkenoClient:
         self.headers = {"Authorization": f"Bearer {self.token}"}
         self.lock = asyncio.Lock()
 
+    async def __aenter__(self) -> "AkenoClient":
+        return self
+
+    async def __aexit__(self, *_: Any) -> None:
+        await self.close()
 
     async def close(self) -> None:
         await self.session.close()
