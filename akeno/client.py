@@ -4,6 +4,8 @@ import asyncio
 
 from typing import Any
 
+__all__ = ("AkenoClient",)
+
 
 class AkenoClient:
     """
