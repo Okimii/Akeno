@@ -11,6 +11,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.extlinks",
+    "sphinxawesome_theme"
 ]
 default_dark_mode = True
 
