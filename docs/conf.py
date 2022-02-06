@@ -19,6 +19,6 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 
-html_theme = 'sphinx_material'
+html_theme = 'renku'
 
 html_static_path = ['_static']
