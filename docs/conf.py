@@ -11,7 +11,6 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.extlinks",
-    "sphinx_rtd_dark_mode"
 ]
 default_dark_mode = True
 
@@ -20,6 +19,6 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 
-html_theme = 'sphinx_rtd_dark_mode'
+html_theme = 'sphinxawesome_theme'
 
 html_static_path = ['_static']
