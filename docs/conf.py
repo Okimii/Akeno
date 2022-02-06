@@ -11,7 +11,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.extlinks",
-    "sphinxawesome_theme"
+    "groundwork-sphinx-theme"
 ]
 default_dark_mode = True
 
@@ -20,6 +20,6 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 
-html_theme = 'sphinxawesome_theme'
+html_theme = ''groundwork''
 
 html_static_path = ['_static']
