@@ -58,7 +58,7 @@ class AkenoClient:
         self.cache[tweet_id] = t
         return t
 
-    def get_tweet(self, tweet_id: int) -> None:
+    def get_tweet(self, tweet_id: int) -> dict[Any, Any]:
         """
         Gets the tweet by id from cache.
         Parameters
