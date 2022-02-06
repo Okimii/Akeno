@@ -150,7 +150,7 @@ class AkenoClient:
 
         Parameters
         ----------
-        user_id: :class:`int` id of the user you're trying to like a tweet for.
+        user_id: :class:`int` your own id to like the given tweet.
         tweet_id: :class:`int` id of the tweets you're trying to like.
         
         Returns
@@ -169,11 +169,11 @@ class AkenoClient:
 
     async def unlike_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
         """
-        Likes a tweet for a user.
+        Unlikes a tweet for a user.
 
         Parameters
         ----------
-        user_id: :class:`int` id of the user you're trying to like a tweet for.
+        user_id: :class:`int` your own id to like the given tweet.
         tweet_id: :class:`int` id of the tweets you're trying to like.
         
         Returns
