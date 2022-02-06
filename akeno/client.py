@@ -1,8 +1,7 @@
-from aiohttp import ClientSession
-
 import asyncio
-
 from typing import Any
+
+from aiohttp import ClientSession
 
 __all__ = ("AkenoClient",)
 
@@ -49,7 +48,7 @@ class AkenoClient:
         Makes a request to the api to get a tweet.
         Parameters
         ----------
-        tweet_id :class: `int` id of the tweet youre trying to fetch.
+        tweet_id :class: `int` id of the tweet you're trying to fetch.
         """
 
         t = await self.request(
@@ -63,7 +62,7 @@ class AkenoClient:
         Gets the tweet by id from cache.
         Parameters
         ----------
-        tweet_id :class: `int` id of the tweet youre trying to get.
+        tweet_id :class: `int` id of the tweet you're trying to get.
         """
         return self.cache[tweet_id]
 
@@ -72,7 +71,7 @@ class AkenoClient:
         Tries to get the tweet by id from cache, if it fails it will make a request to the api.
         Parameters
         ----------
-        tweet_id :class: `int` id of the tweet youre trying to get or fetch.
+        tweet_id :class: `int` id of the tweet you're trying to get or fetch.
         """
 
         try:
@@ -91,7 +90,7 @@ class AkenoClient:
         Makes a request to the api to get tweets.
         Parameters
         ----------
-        tweet_ids :class: `str` ids of the tweet youre trying to fetch.
+        tweet_ids :class: `str` ids of the tweet you're trying to fetch.
         """
         t = await self.request(
             "GET",
@@ -106,7 +105,7 @@ class AkenoClient:
         Tries to get the tweets by id from cache, if it fails it will make a request to the api.
         Parameters
         ----------
-        tweet_ids :class: `int` ids of the tweets youre trying to get or fetch.
+        tweet_ids :class: `int` ids of the tweets you're trying to get or fetch.
         """
         try:
             return self.cache[tweet_ids[0]]
@@ -124,9 +123,9 @@ class AkenoClient:
         Likes a tweet for a user.
         Parameters
         ----------
-        user_id :class: `int` id of the user youre trying to like a tweet for.
+        user_id :class: `int` id of the user you're trying to like a tweet for.
 
-        tweet_id :class: `int` id of the tweets youre trying to like.
+        tweet_id :class: `int` id of the tweets you're trying to like.
         """
         return await self.request(
             "POST",
@@ -143,9 +142,9 @@ class AkenoClient:
         Likes a tweet for a user.
         Parameters
         ----------
-        user_id :class: `int` id of the user youre trying to like a tweet for.
+        user_id :class: `int` id of the user you're trying to like a tweet for.
 
-        tweet_id :class: `int` id of the tweets youre trying to like.
+        tweet_id :class: `int` id of the tweets you're trying to like.
         """
         return await self.request(
             "DELETE",
@@ -158,7 +157,7 @@ class AkenoClient:
         Makes a request to the api to get a user.
         Parameters
         ----------
-        user_id :class: `int` id of the user youre trying to fetch.
+        user_id :class: `int` id of the user you're trying to fetch.
         """
         u = await self.request(
             "GET", f"https://api.twitter.com/2/users/{user_id}", headers=self.headers
@@ -166,12 +165,12 @@ class AkenoClient:
         self.cache[user_id] = u
         return u
 
-    def get_user(self, user_id: int) -> None:
+    def get_user(self, user_id: int) -> dict[Any, Any]:
         """
         Gets the user by id from cache.
         Parameters
         ----------
-        user_id :class: `int` id of the user youre trying to get.
+        user_id :class: `int` id of the user you're trying to get.
         """
         return self.cache[user_id]
 
@@ -180,7 +179,7 @@ class AkenoClient:
         Tries to get the user by id from cache, if it fails it will make a request to the api.
         Parameters
         ----------
-        user_id :class: `int` id of the user youre trying to get or fetch.
+        user_id :class: `int` id of the user you're trying to get or fetch.
         """
         try:
             return self.cache[user_id]
@@ -193,12 +192,12 @@ class AkenoClient:
             self.cache[user_id] = u
             return u
 
-    async def fetch_user_profile_image(self, user_id: int) -> dict[Any, Any]:
+    async def fetch_user_profile_image(self, user_id: int) -> str:
         """
         Makes a request to the api to get a users profile picture as a url.
         Parameters
         ----------
-        user_id :class: `int` id of the user youre trying to fetch.
+        user_id :class: `int` id of the user you're trying to fetch.
         """
         u = await self.request(
             "GET",
@@ -208,21 +207,21 @@ class AkenoClient:
         self.cache[user_id] = u
         return u["data"]["profile_image_url"]
 
-    def get_user_profile_image(self, user_id: int) -> dict[Any, Any]:
+    def get_user_profile_image(self, user_id: int) -> str:
         """
         Gets the users profile picture as a url by id from cache.
         Parameters
         ----------
-        user_id :class: `int` id of the user youre trying to get.
+        user_id :class: `int` id of the user you're trying to get.
         """
         return self.cache[user_id]["data"]["profile_image_url"]
 
-    async def getch_user_profile_image(self, user_id: int) -> dict[Any, Any]:
+    async def getch_user_profile_image(self, user_id: int) -> str:
         """
         Tries to get the user profile image by id from cache, if it fails it will make a request to the api.
         Parameters
         ----------
-        user_id :class: `int` id of the user youre trying to get or fetch.
+        user_id :class: `int` id of the user you're trying to get or fetch.
         """
         try:
             return self.cache[user_id]["data"]["profile_image_url"]
@@ -235,12 +234,12 @@ class AkenoClient:
             self.cache[user_id] = u
             return u["data"]["profile_image_url"]
 
-    async def fetch_user_created_at(self, user_id: int) -> dict[Any, Any]:
+    async def fetch_user_created_at(self, user_id: int) -> str:
         """
         Makes a request to the api to get a users date of the account creation.
         Parameters
         ----------
-        user_id :class: `int` id of the user youre trying to fetch.
+        user_id :class: `int` id of the user you're trying to fetch.
         """
         u = await self.request(
             "GET",
@@ -250,3 +249,29 @@ class AkenoClient:
         self.cache[user_id] = u
         return u["data"]["created_at"]
 
+    def get_user_created_at(self, user_id: int) -> str:
+        """
+        Gets the users date of account creation by id from cache.
+        Parameters
+        ----------
+        user_id :class: `int` id of the user you're trying to get.
+        """
+        return self.cache[user_id]["data"]["created_at"]
+
+    async def getch_user_created_at(self, user_id: int) -> str:
+        """
+        Tries to get the users date of account creation, if it fails it will make a request to the api.
+        Parameters
+        ----------
+        user_id :class: `int` id of the user you're trying to get or fetch.
+        """
+        try:
+            return self.cache[user_id]["data"]["created_at"]
+        except KeyError:
+            u = await self.request(
+                "GET",
+                f"https://api.twitter.com/2/users/{user_id}?user.fields=created_at",
+                headers=self.headers,
+            )
+            self.cache[user_id] = u
+            return u["data"]["created_at"]
