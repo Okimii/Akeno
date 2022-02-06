@@ -51,6 +51,10 @@ class AkenoClient:
         Parameters
         ----------
         tweet_id: :class:`int` id of the tweet you're trying to fetch.
+
+        Returns
+        -------
+        :class:`dict`
         """
 
         t = await self.request(
@@ -66,6 +70,10 @@ class AkenoClient:
         Parameters
         ----------
         tweet_id: :class:`int` id of the tweet you're trying to get.
+
+        Returns
+        -------
+        :class:`dict`
         """
         return self.cache[tweet_id]
 
@@ -76,6 +84,10 @@ class AkenoClient:
         Parameters
         ----------
         tweet_id: :class:`int` id of the tweet you're trying to get or fetch.
+        
+        Returns
+        -------
+        :class:`dict`
         """
 
         try:
@@ -96,6 +108,10 @@ class AkenoClient:
         Parameters
         ----------
         tweet_ids: :class:`str` ids of the tweet you're trying to fetch.
+        
+        Returns
+        -------
+        :class:`dict`
         """
         t = await self.request(
             "GET",
@@ -112,6 +128,10 @@ class AkenoClient:
         Parameters
         ----------
         tweet_ids: :class:`int` ids of the tweets you're trying to get or fetch.
+        
+        Returns
+        -------
+        :class:`dict`
         """
         try:
             return self.cache[tweet_ids[0]]
@@ -132,6 +152,10 @@ class AkenoClient:
         ----------
         user_id: :class:`int` id of the user you're trying to like a tweet for.
         tweet_id: :class:`int` id of the tweets you're trying to like.
+        
+        Returns
+        -------
+        :class:`dict`
         """
         return await self.request(
             "POST",
@@ -151,6 +175,10 @@ class AkenoClient:
         ----------
         user_id: :class:`int` id of the user you're trying to like a tweet for.
         tweet_id: :class:`int` id of the tweets you're trying to like.
+        
+        Returns
+        -------
+        :class:`dict`
         """
         return await self.request(
             "DELETE",
@@ -165,6 +193,10 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to fetch.
+        
+        Returns
+        -------
+        :class:`dict`
         """
         u = await self.request(
             "GET", f"https://api.twitter.com/2/users/{user_id}", headers=self.headers
@@ -179,6 +211,10 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get.
+        
+        Returns
+        -------
+        :class:`dict`
         """
         return self.cache[user_id]
 
@@ -189,6 +225,10 @@ class AkenoClient:
         Parameters
         ----------
         user_id :class:`int` id of the user you're trying to get or fetch.
+        
+        Returns
+        -------
+        :class:`dict`
         """
         try:
             return self.cache[user_id]
@@ -208,6 +248,10 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to fetch.
+        
+        Returns
+        -------
+        :class:`str`
         """
         u = await self.request(
             "GET",
@@ -224,6 +268,10 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get.
+        
+        Returns
+        -------
+        :class:`str`
         """
         return self.cache[user_id]["data"]["profile_image_url"]
 
@@ -234,6 +282,10 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get or fetch.
+        
+        Returns
+        -------
+        :class:`str`
         """
         try:
             return self.cache[user_id]["data"]["profile_image_url"]
@@ -253,6 +305,10 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to fetch.
+        
+        Returns
+        -------
+        :class:`str`
         """
         u = await self.request(
             "GET",
@@ -269,6 +325,10 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get.
+        
+        Returns
+        -------
+        :class:`str`
         """
         return self.cache[user_id]["data"]["created_at"]
 
@@ -279,6 +339,10 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get or fetch.
+        
+        Returns
+        -------
+        :class:`str`
         """
         try:
             return self.cache[user_id]["data"]["created_at"]
