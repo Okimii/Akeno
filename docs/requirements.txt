@@ -1,2 +1,2 @@
 aiohttp >= "3.8.1"
-renku-sphinx-theme >= "0.2.2"
+sphinx_book_theme >= "0.2.0"
