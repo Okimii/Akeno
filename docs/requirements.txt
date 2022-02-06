@@ -1,2 +1,2 @@
 aiohttp >= "3.8.1"
-sphinxawesome_theme >= "3.2.3"
+groundwork-sphinx-theme >= "1.1.1"
