@@ -1,2 +1,2 @@
 aiohttp >= "3.8.1"
-sphinx-rtd-dark-mode >= "1.2.4"
+sphinxawesome_theme >= "3.2.3"
