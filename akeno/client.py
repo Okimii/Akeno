@@ -121,7 +121,7 @@ class AkenoClient:
         self.cache[tweet_ids[0]] = tweets
         return tweets
 
-    async def getch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
+    async def getch_tweets(self, *tweet_ids: str) -> dict[Any, Any]:
         """
         Tries to get the tweets by id from cache, if it fails it will make a request to the api.
 
