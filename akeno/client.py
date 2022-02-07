@@ -31,7 +31,7 @@ class AkenoClient:
         await self.session.close()
 
     async def request(
-        self, method: str, endpoint: str, headers: dict
+            self, method: str, endpoint: str, headers: dict
     ) -> dict[Any, Any]:
         self.session = ClientSession(headers=headers)
         resp = await self.session.request(method, endpoint)
@@ -41,7 +41,9 @@ class AkenoClient:
                 await asyncio.sleep(900)
                 self.lock.release()
         except KeyError:
+            await self.session.close()
             return await resp.json()
+        await self.session.close()
         return await resp.json()
 
     async def fetch_tweet(self, tweet_id: int) -> dict[Any, Any]:
@@ -84,7 +86,7 @@ class AkenoClient:
         Parameters
         ----------
         tweet_id: :class:`int` id of the tweet you're trying to get or fetch.
-        
+
         Returns
         -------
         :class:`dict`
@@ -108,7 +110,7 @@ class AkenoClient:
         Parameters
         ----------
         tweet_ids: :class:`str` ids of the tweet you're trying to fetch.
-        
+
         Returns
         -------
         :class:`dict`
@@ -118,7 +120,7 @@ class AkenoClient:
             f"https://api.twitter.com/2/{','.join(tweet_ids)}",
             headers=self.headers,
         )
-        self.cache[tweet_ids[0]] = tweets
+        self.cache[int(tweet_ids[0])] = tweets
         return tweets
 
     async def getch_tweets(self, *tweet_ids: str) -> dict[Any, Any]:
@@ -128,20 +130,20 @@ class AkenoClient:
         Parameters
         ----------
         tweet_ids: :class:`int` ids of the tweets you're trying to get or fetch.
-        
+
         Returns
         -------
         :class:`dict`
         """
         try:
-            return self.cache[tweet_ids[0]]
+            return self.cache[int(tweet_ids[0])]
         except KeyError:
             tweets = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/{','.join(tweet_ids)}",
                 headers=self.headers,
             )
-            self.cache[tweet_ids[0]] = tweets
+            self.cache[int(tweet_ids[0])] = tweets
             return tweets
 
     async def like_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
@@ -152,7 +154,7 @@ class AkenoClient:
         ----------
         user_id: :class:`int` your own id to like the given tweet.
         tweet_id: :class:`int` id of the tweets you're trying to like.
-        
+
         Returns
         -------
         :class:`dict`
@@ -175,7 +177,7 @@ class AkenoClient:
         ----------
         user_id: :class:`int` your own id to like the given tweet.
         tweet_id: :class:`int` id of the tweets you're trying to like.
-        
+
         Returns
         -------
         :class:`dict`
@@ -193,7 +195,7 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to fetch.
-        
+
         Returns
         -------
         :class:`dict`
@@ -211,7 +213,7 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get.
-        
+
         Returns
         -------
         :class:`dict`
@@ -225,7 +227,7 @@ class AkenoClient:
         Parameters
         ----------
         user_id :class:`int` id of the user you're trying to get or fetch.
-        
+
         Returns
         -------
         :class:`dict`
@@ -248,7 +250,7 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to fetch.
-        
+
         Returns
         -------
         :class:`str`
@@ -268,7 +270,7 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get.
-        
+
         Returns
         -------
         :class:`str`
@@ -282,7 +284,7 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get or fetch.
-        
+
         Returns
         -------
         :class:`str`
@@ -305,7 +307,7 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to fetch.
-        
+
         Returns
         -------
         :class:`str`
@@ -325,7 +327,7 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get.
-        
+
         Returns
         -------
         :class:`str`
@@ -339,7 +341,7 @@ class AkenoClient:
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get or fetch.
-        
+
         Returns
         -------
         :class:`str`
@@ -354,3 +356,60 @@ class AkenoClient:
             )
             self.cache[user_id] = user
             return user["data"]["created_at"]
+
+    async def fetch_user_metrics(self, user_id: int) -> dict[Any, Any]:
+        """
+        Makes a request to the api to get the metrics of a user.
+
+        Parameters
+        ----------
+        user_id: :class:`int` id of the user you're trying to fetch.
+
+        Returns
+        -------
+        :class:`dict`
+        """
+        user = await self.request(
+            "GET",
+            f"https://api.twitter.com/2/users/{user_id}?user.fields=public_metrics",
+            headers=self.headers,
+        )
+        self.cache[user_id] = user
+        return user["data"]["public_metrics"]
+
+    def get_user_metrics(self, user_id: int) -> dict[Any, Any]:
+        """
+        Gets the users metrics by id from cache.
+
+        Parameters
+        ----------
+        user_id: :class:`int` id of the user you're trying to get.
+
+        Returns
+        -------
+        :class:`dict`
+        """
+        return self.cache[user_id]["data"]["public_metrics"]
+
+    async def getch_user_metrics(self, user_id: int) -> dict[Any, Any]:
+        """
+        Tries to get the metrics of a user from cache, if it fails it will make a request to the api.
+
+        Parameters
+        ----------
+        user_id: :class:`int` id of the user you're trying to get or fetch.
+
+        Returns
+        -------
+        :class:`dict`
+        """
+        try:
+            return self.cache[user_id]["data"]["public_metrics"]
+        except KeyError:
+            user = await self.request(
+                "GET",
+                f"https://api.twitter.com/2/users/{user_id}?user.fields=public_metrics",
+                headers=self.headers,
+            )
+            self.cache[user_id] = user
+            return user["data"]["public_metrics"]
