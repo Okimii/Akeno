@@ -108,7 +108,7 @@ class AkenoClient:
         """
         tweets = await self.request(
             "GET",
-            f"https://api.twitter.com/2/{','.join(tweet_ids)}",
+            f"https://api.twitter.com/2/tweets?ids={','.join(tweet_ids)}",
             headers=self.headers,
         )
         self.cache[tweet_ids] = tweets
@@ -125,15 +125,27 @@ class AkenoClient:
         :class:`dict`
         """
         try:
-            return self.cache[int(tweet_ids[0])]
+            return self.cache[tweet_ids]
         except KeyError:
             tweets = await self.request(
                 "GET",
-                f"https://api.twitter.com/2/{','.join(tweet_ids)}",
+                f"https://api.twitter.com/2/tweets?ids={','.join(tweet_ids)}",
                 headers=self.headers,
             )
             self.cache[tweet_ids] = tweets
             return tweets
+
+    async def get_tweets(self, *tweet_ids: str) -> dict[Any, Any]:
+        """
+        Tries to get the tweets by id from cache, if it fails it will make a request to the api.
+        Parameters
+        ----------
+        tweet_ids: :class:`int` ids of the tweets you're trying to get or fetch.
+        Returns
+        -------
+        :class:`dict`
+        """
+        return self.cache[tweet_ids]
 
     async def like_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
         """
