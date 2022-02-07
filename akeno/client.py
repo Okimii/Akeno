@@ -120,7 +120,7 @@ class AkenoClient:
             f"https://api.twitter.com/2/{','.join(tweet_ids)}",
             headers=self.headers,
         )
-        self.cache[tweet_ids[0]] = tweets
+        self.cache[int(tweet_ids[0])] = tweets
         return tweets
 
     async def getch_tweets(self, *tweet_ids: str) -> dict[Any, Any]:
@@ -136,14 +136,14 @@ class AkenoClient:
         :class:`dict`
         """
         try:
-            return self.cache[tweet_ids[0]]
+            return self.cache[int(tweet_ids[0])]
         except KeyError:
             tweets = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/{','.join(tweet_ids)}",
                 headers=self.headers,
             )
-            self.cache[tweet_ids[0]] = tweets
+            self.cache[int(tweet_ids[0])] = tweets
             return tweets
 
     async def like_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
