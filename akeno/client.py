@@ -103,13 +103,13 @@ class AkenoClient:
             self.cache[tweet_id] = tweet
             return tweet
 
-    async def fetch_tweets(self, *tweet_ids: str) -> dict[Any, Any]:
+    async def fetch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
         """
-        Makes a request to the api to get tweets.
+        Makes a request to the api to get the tweets.
 
         Parameters
         ----------
-        tweet_ids: :class:`str` ids of the tweet you're trying to fetch.
+        tweet_ids: :class:`int` ids of the tweet you're trying to fetch.
 
         Returns
         -------
@@ -117,13 +117,13 @@ class AkenoClient:
         """
         tweets = await self.request(
             "GET",
-            f"https://api.twitter.com/2/tweets?ids={','.join(tweet_ids)}",
+            f"https://api.twitter.com/2/tweets?ids={','.join([str(i) for i in tweet_ids])}",
             headers=self.headers,
         )
         self.cache[tweet_ids] = tweets
         return tweets
 
-    async def getch_tweets(self, *tweet_ids: str) -> dict[Any, Any]:
+    async def getch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
         """
         Tries to get the tweets by id from cache, if it fails it will make a request to the api.
 
@@ -140,19 +140,19 @@ class AkenoClient:
         except KeyError:
             tweets = await self.request(
                 "GET",
-                f"https://api.twitter.com/2/tweets?ids={','.join(tweet_ids)}",
+                f"https://api.twitter.com/2/tweets?ids={','.join([str(i) for i in tweet_ids])}",
                 headers=self.headers,
             )
             self.cache[tweet_ids] = tweets
             return tweets
 
-    async def get_tweets(self, *tweet_ids: str) -> dict[Any, Any]:
+    def get_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
         """
         Gets the tweet by id from cache.
 
         Parameters
         ----------
-        tweet_ids: :class:`str` ids of the tweet you're trying to get.
+        tweet_ids: :class:`int` ids of the tweet you're trying to get.
 
         Returns
         -------
