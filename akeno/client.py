@@ -137,10 +137,10 @@ class AkenoClient:
 
     async def get_tweets(self, *tweet_ids: str) -> dict[Any, Any]:
         """
-        Tries to get the tweets by id from cache, if it fails it will make a request to the api.
+        Gets the tweet by id from cache.
         Parameters
         ----------
-        tweet_ids: :class:`int` ids of the tweets you're trying to get or fetch.
+        tweet_ids: :class:`str` ids of the tweet you're trying to get.
         Returns
         -------
         :class:`dict`
