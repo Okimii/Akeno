@@ -146,13 +146,13 @@ class AkenoClient:
             self.cache[tweet_ids] = tweets
             return tweets
 
-    async def get_tweets(self, *tweet_ids: str) -> dict[Any, Any]:
+    def get_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
         """
         Gets the tweet by id from cache.
 
         Parameters
         ----------
-        tweet_ids: :class:`str` ids of the tweet you're trying to get.
+        tweet_ids: :class:`int` ids of the tweet you're trying to get.
 
         Returns
         -------
