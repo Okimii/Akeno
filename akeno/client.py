@@ -117,7 +117,7 @@ class AkenoClient:
         """
         tweets = await self.request(
             "GET",
-            f"https://api.twitter.com/2/tweets?ids={','.join(tweet_ids)}",
+            f"https://api.twitter.com/2/tweets?ids={','.join([str(i) for i in tweet_ids])}",
             headers=self.headers,
         )
         self.cache[tweet_ids] = tweets
@@ -140,7 +140,7 @@ class AkenoClient:
         except KeyError:
             tweets = await self.request(
                 "GET",
-                f"https://api.twitter.com/2/tweets?ids={','.join(tweet_ids)}",
+                f"https://api.twitter.com/2/tweets?ids={','.join([str(i) for i in tweet_ids])}",
                 headers=self.headers,
             )
             self.cache[tweet_ids] = tweets
