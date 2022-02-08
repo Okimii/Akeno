@@ -451,3 +451,45 @@ class AkenoClient:
                 "tweet_id": f"{tweet_id}",
             },
         )
+
+    async def post_tweet(self, text: str) -> dict[Any, Any]:
+        """
+        Makes a request to the api to post a tweet.
+
+        Parameters
+        ----------
+        text: :class:`str` the text of the tweet you will post.
+
+        Returns
+        -------
+        :class:`dict`
+        """
+
+        return await self.request(
+            "POST",
+            f"https://api.twitter.com/2/tweets",
+            headers={
+                "Authorization": f"Bearer {self.token}",
+                "Content-type": "application/json",
+                "text": text,
+            },
+        )
+
+    async def delete_tweet(self, tweet_id: int) -> dict[Any, Any]:
+        """
+        Makes a request to the api to delete a tweet.
+
+        Parameters
+        ----------
+        tweet_id: :class:`int` the tweet id of the tweet you want to delete.
+
+        Returns
+        -------
+        :class:`dict`
+        """
+
+        return await self.request(
+            "DELETE",
+            f"https://api.twitter.com/2/tweets/{tweet_id}",
+            headers=self.headers,
+        )
