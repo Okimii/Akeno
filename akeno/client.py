@@ -606,25 +606,3 @@ class AkenoClient:
             )
             self.cache[tweet_id] = tweet
             return tweet["data"]["public_metrics"]
-
-    async def fetch_tweet_source(self, tweet_id: int) -> dict[Any, Any]:
-        """
-        Makes a request to the api to get the source of a user.
-
-        Parameters
-        ----------
-        tweet_id: :class:`int` id of the tweet you're trying to fetch.
-
-        Returns
-        -------
-        :class:`dict`
-        """
-        tweet = await self.request(
-            "GET",
-            f"https://api.twitter.com/2/tweets/{tweet_id}?tweet.fields=public_metrics",
-            headers=self.headers,
-        )
-        self.cache[tweet_id] = tweet
-        return tweet["data"]["public_metrics"]
-
-
