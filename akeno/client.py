@@ -529,7 +529,7 @@ class AkenoClient:
 
     async def getch_tweet_created_at(self, tweet_id: int) -> str:
         """
-        Tries to get the users date of account creation, if it fails it will make a request to the api.
+        Tries to get the tweet date of creation, if it fails it will make a request to the api.
 
         Parameters
         ----------
@@ -552,7 +552,7 @@ class AkenoClient:
 
     async def fetch_tweet_metrics(self, tweet_id: int) -> dict[Any, Any]:
         """
-        Makes a request to the api to get the metrics of a user.
+        Makes a request to the api to get the metrics of a tweet.
 
         Parameters
         ----------
@@ -572,11 +572,11 @@ class AkenoClient:
 
     def get_tweet_metrics(self, tweet_id: int) -> dict[Any, Any]:
         """
-        Gets the users metrics by id from cache.
+        Gets the tweet metrics by id from cache.
 
         Parameters
         ----------
-        tweet_id: :class:`int` id of the user you're trying to get.
+        tweet_id: :class:`int` id of the tweet you're trying to get.
 
         Returns
         -------
@@ -586,11 +586,11 @@ class AkenoClient:
 
     async def getch_tweet_metrics(self, tweet_id: int) -> dict[Any, Any]:
         """
-        Tries to get the metrics of a user from cache, if it fails it will make a request to the api.
+        Tries to get the metrics of a tweet from cache, if it fails it will make a request to the api.
 
         Parameters
         ----------
-        tweet_id: :class:`int` id of the user you're trying to get or fetch.
+        tweet_id: :class:`int` id of the tweet you're trying to get or fetch.
 
         Returns
         -------
@@ -606,4 +606,25 @@ class AkenoClient:
             )
             self.cache[tweet_id] = tweet
             return tweet["data"]["public_metrics"]
+
+    async def fetch_tweet_source(self, tweet_id: int) -> dict[Any, Any]:
+        """
+        Makes a request to the api to get the source of a user.
+
+        Parameters
+        ----------
+        tweet_id: :class:`int` id of the tweet you're trying to fetch.
+
+        Returns
+        -------
+        :class:`dict`
+        """
+        tweet = await self.request(
+            "GET",
+            f"https://api.twitter.com/2/tweets/{tweet_id}?tweet.fields=public_metrics",
+            headers=self.headers,
+        )
+        self.cache[tweet_id] = tweet
+        return tweet["data"]["public_metrics"]
+
 
