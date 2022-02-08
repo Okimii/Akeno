@@ -17,7 +17,7 @@ class AkenoClient:
 
     def __init__(self, token: str) -> None:
         self.token = token
-        self.cache: dict[int, dict[Any, Any]] = {}
+        self.cache: dict[Any, dict[Any, Any]] = {}
         self.headers = {"Authorization": f"Bearer {self.token}"}
         self.lock = asyncio.Lock()
 
