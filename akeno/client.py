@@ -371,7 +371,7 @@ class AkenoClient:
             self.cache[user_id] = user
             return user["data"]["created_at"]
 
-    async def fetch_user_metrics(self, user_id: int) -> dict[Any, Any]:
+    async def fetch_user_metrics(self, user_id: int) -> str:
         """
         Makes a request to the api to get the metrics of a user.
 
@@ -381,7 +381,7 @@ class AkenoClient:
 
         Returns
         -------
-        :class:`dict`
+        :class:`str`
         """
         user = await self.request(
             "GET",
@@ -391,7 +391,7 @@ class AkenoClient:
         self.cache[user_id] = user
         return user["data"]["public_metrics"]
 
-    def get_user_metrics(self, user_id: int) -> dict[Any, Any]:
+    def get_user_metrics(self, user_id: int) -> str:
         """
         Gets the users metrics by id from cache.
 
@@ -401,11 +401,11 @@ class AkenoClient:
 
         Returns
         -------
-        :class:`dict`
+        :class:`str`
         """
         return self.cache[user_id]["data"]["public_metrics"]
 
-    async def getch_user_metrics(self, user_id: int) -> dict[Any, Any]:
+    async def getch_user_metrics(self, user_id: int) -> str:
         """
         Tries to get the metrics of a user from cache, if it fails it will make a request to the api.
 
@@ -415,7 +415,7 @@ class AkenoClient:
 
         Returns
         -------
-        :class:`dict`
+        :class:`str`
         """
         try:
             return self.cache[user_id]["data"]["public_metrics"]
@@ -550,7 +550,7 @@ class AkenoClient:
             self.cache[tweet_id] = tweet
             return tweet["data"]["created_at"]
 
-    async def fetch_tweet_metrics(self, tweet_id: int) -> dict[Any, Any]:
+    async def fetch_tweet_metrics(self, tweet_id: int) -> str:
         """
         Makes a request to the api to get the metrics of a tweet.
 
@@ -560,7 +560,7 @@ class AkenoClient:
 
         Returns
         -------
-        :class:`dict`
+        :class:`str`
         """
         tweet = await self.request(
             "GET",
@@ -570,7 +570,7 @@ class AkenoClient:
         self.cache[tweet_id] = tweet
         return tweet["data"]["public_metrics"]
 
-    def get_tweet_metrics(self, tweet_id: int) -> dict[Any, Any]:
+    def get_tweet_metrics(self, tweet_id: int) -> str:
         """
         Gets the tweet metrics by id from cache.
 
@@ -580,11 +580,11 @@ class AkenoClient:
 
         Returns
         -------
-        :class:`dict`
+        :class:`str`
         """
         return self.cache[tweet_id]["data"]["public_metrics"]
 
-    async def getch_tweet_metrics(self, tweet_id: int) -> dict[Any, Any]:
+    async def getch_tweet_metrics(self, tweet_id: int) -> str:
         """
         Tries to get the metrics of a tweet from cache, if it fails it will make a request to the api.
 
@@ -594,7 +594,7 @@ class AkenoClient:
 
         Returns
         -------
-        :class:`dict`
+        :class:`str`
         """
         try:
             return self.cache[tweet_id]["data"]["public_metrics"]
