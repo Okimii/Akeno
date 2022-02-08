@@ -1,5 +1,6 @@
 import asyncio
 from typing import Any
+from wsgiref import headers
 
 from aiohttp import ClientSession
 
@@ -408,11 +409,11 @@ class AkenoClient:
     async def getch_user_metrics(self, user_id: int) -> dict[Any, Any]:
         """
         Tries to get the metrics of a user from cache, if it fails it will make a request to the api.
-        
+
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get or fetch.
-        
+
         Returns
         -------
         :class:`dict`
@@ -427,3 +428,26 @@ class AkenoClient:
             )
             self.cache[user_id] = user
             return user["data"]["public_metrics"]
+
+    async def retweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
+        """
+        Makes a request to the api to retweet the given tweet.
+
+        Parameters
+        ----------
+        user_id: :class:`int` your'e own id to retweet the given tweet.
+        tweet_id: :class:`int` tweet you're trying to retweet.
+
+        Returns
+        -------
+        :class:`dict`
+        """
+        return await self.request(
+            "POST",
+            f"https://api.twitter.com/2/users/{user_id}/retweets",
+            headers={
+                "Authorization": f"Bearer {self.token}",
+                "Content-type": "application/json",
+                "tweet_id": f"{tweet_id}",
+            },
+        )
