@@ -606,3 +606,60 @@ class AkenoClient:
             )
             self.cache[tweet_id] = tweet
             return tweet["data"]["public_metrics"]
+
+    async def fetch_tweet_source(self, tweet_id: int) -> str:
+        """
+        Makes a request to the api to get the source of a tweet.
+
+        Parameters
+        ----------
+        tweet_id: :class:`int` id of the tweet you're trying to fetch.
+
+        Returns
+        -------
+        :class:`str`
+        """
+        tweet = await self.request(
+            "GET",
+            f"https://api.twitter.com/2/tweets/{tweet_id}?tweet.fields=source",
+            headers=self.headers,
+        )
+        self.cache[tweet_id] = tweet
+        return tweet["data"]["source"]
+
+    def get_tweet_source(self, tweet_id: int) -> str:
+        """
+        Gets the tweet source by id from cache.
+
+        Parameters
+        ----------
+        tweet_id: :class:`int` id of the tweet you're trying to get.
+
+        Returns
+        -------
+        :class:`str`
+        """
+        return self.cache[tweet_id]["data"]["source"]
+
+    async def getch_tweet_source(self, tweet_id: int) -> str:
+        """
+        Tries to get the source  of a tweet from cache, if it fails it will make a request to the api.
+
+        Parameters
+        ----------
+        tweet_id: :class:`int` id of the tweet you're trying to get or fetch.
+
+        Returns
+        -------
+        :class:`str`
+        """
+        try:
+            return self.cache[tweet_id]["data"]["source"]
+        except KeyError:
+            tweet = await self.request(
+                "GET",
+                f"https://api.twitter.com/2/tweets/{tweet_id}?tweet.fields=source",
+                headers=self.headers,
+            )
+            self.cache[tweet_id] = tweet
+            return tweet["data"]["source"]
