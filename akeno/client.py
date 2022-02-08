@@ -1,6 +1,5 @@
 import asyncio
 from typing import Any
-from wsgiref import headers
 
 from aiohttp import ClientSession
 
@@ -104,7 +103,7 @@ class AkenoClient:
             self.cache[tweet_id] = tweet
             return tweet
 
-    async def fetch_tweets(self, *tweet_ids: tuple[int]) -> dict[Any, Any]:
+    async def fetch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
         """
         Makes a request to the api to get the tweets.
 
@@ -124,7 +123,7 @@ class AkenoClient:
         self.cache[tweet_ids] = tweets
         return tweets
 
-    async def getch_tweets(self, *tweet_ids: tuple[int]) -> dict[Any, Any]:
+    async def getch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
         """
         Tries to get the tweets by id from cache, if it fails it will make a request to the api.
 
@@ -147,7 +146,7 @@ class AkenoClient:
             self.cache[tweet_ids] = tweets
             return tweets
 
-    def get_tweets(self, *tweet_ids: tuple[int]) -> dict[Any, Any]:
+    def get_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
         """
         Gets the tweet by id from cache.
 
