@@ -1,14 +1,16 @@
-import asyncio
 from typing import Any
 
-from aiohttp import ClientSession
+
+from httpclient import HttpClient
+
+from cache import Cache
 
 __all__ = ("AkenoClient",)
 
 
-class AkenoClient:
+class AkenoClient(HttpClient, Cache):
     """
-    A client class that has methods to access the twitter API.
+    A main client class.
 
     Parameters
     ----------
@@ -17,34 +19,8 @@ class AkenoClient:
 
     def __init__(self, token: str) -> None:
         self.token = token
-        self.cache: dict[Any, dict[Any, Any]] = {}
-        self.headers = {"Authorization": f"Bearer {self.token}"}
-        self.lock = asyncio.Lock()
-
-    async def __aenter__(self) -> "AkenoClient":
-        return self
-
-    async def __aexit__(self, *_: Any) -> None:
-        await self.close()
-
-    async def close(self) -> None:
-        await self.session.close()
-
-    async def request(
-        self, method: str, endpoint: str, headers: dict
-    ) -> dict[Any, Any]:
-        self.session = ClientSession(headers=headers)
-        resp = await self.session.request(method, endpoint)
-        try:
-            if resp.headers["x-rate-limit-remaining"] == 1:
-                await self.lock.acquire()
-                await asyncio.sleep(900)
-                self.lock.release()
-        except KeyError:
-            await self.session.close()
-            return await resp.json()
-        await self.session.close()
-        return await resp.json()
+        HttpClient.__init__(self, self.token)
+        Cache.__init__(self)
 
     async def fetch_tweet(self, tweet_id: int) -> dict[Any, Any]:
         """
@@ -62,7 +38,7 @@ class AkenoClient:
         tweet = await self.request(
             "GET", f"https://api.twitter.com/2/tweets/{tweet_id}", headers=self.headers
         )
-        self.cache[tweet_id] = tweet
+        self.save(tweet_id, tweet)
         return tweet
 
     def get_tweet(self, tweet_id: int) -> dict[Any, Any]:
@@ -77,7 +53,7 @@ class AkenoClient:
         -------
         :class:`dict`
         """
-        return self.cache[tweet_id]
+        return self.get(tweet_id)
 
     async def getch_tweet(self, tweet_id: int) -> dict[Any, Any]:
         """
@@ -93,14 +69,14 @@ class AkenoClient:
         """
 
         try:
-            return self.cache[tweet_id]
+            return self.get(tweet_id)
         except KeyError:
             tweet = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/tweets/{tweet_id}",
                 headers=self.headers,
             )
-            self.cache[tweet_id] = tweet
+            self.save(tweet_id, tweet)
             return tweet
 
     async def fetch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
@@ -120,7 +96,7 @@ class AkenoClient:
             f"https://api.twitter.com/2/tweets?ids={','.join([str(i) for i in tweet_ids])}",
             headers=self.headers,
         )
-        self.cache[tweet_ids] = tweets
+        self.save(tweet_ids, tweets)
         return tweets
 
     async def getch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
@@ -136,14 +112,14 @@ class AkenoClient:
         :class:`dict`
         """
         try:
-            return self.cache[tweet_ids]
+            return self.get(tweet_ids)
         except KeyError:
             tweets = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/tweets?ids={','.join([str(i) for i in tweet_ids])}",
                 headers=self.headers,
             )
-            self.cache[tweet_ids] = tweets
+            self.save(tweet_ids, tweets)
             return tweets
 
     def get_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
@@ -158,7 +134,7 @@ class AkenoClient:
         -------
         :class:`dict`
         """
-        return self.cache[tweet_ids]
+        return self.get(tweet_ids)
 
     async def like_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
         """
@@ -217,7 +193,8 @@ class AkenoClient:
         user = await self.request(
             "GET", f"https://api.twitter.com/2/users/{user_id}", headers=self.headers
         )
-        self.cache[user_id] = user
+
+        self.save(user_id, user)
         return user
 
     def get_user(self, user_id: int) -> dict[Any, Any]:
@@ -232,7 +209,7 @@ class AkenoClient:
         -------
         :class:`dict`
         """
-        return self.cache[user_id]
+        return self.get(user_id)
 
     async def getch_user(self, user_id: int) -> dict[Any, Any]:
         """
@@ -247,14 +224,14 @@ class AkenoClient:
         :class:`dict`
         """
         try:
-            return self.cache[user_id]
+            return self.get(user_id)
         except KeyError:
             user = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/users/{user_id}",
                 headers=self.headers,
             )
-            self.cache[user_id] = user
+            self.save(user_id, user)
             return user
 
     async def fetch_user_profile_image(self, user_id: int) -> str:
@@ -274,7 +251,7 @@ class AkenoClient:
             f"https://api.twitter.com/2/users/{user_id}?user.fields=profile_image_url",
             headers=self.headers,
         )
-        self.cache[user_id] = user
+        self.save(user_id, user)
         return user["data"]["profile_image_url"]
 
     def get_user_profile_image(self, user_id: int) -> str:
@@ -289,7 +266,7 @@ class AkenoClient:
         -------
         :class:`str`
         """
-        return self.cache[user_id]["data"]["profile_image_url"]
+        return self.get_index(user_id, "data", "profile_image_url")
 
     async def getch_user_profile_image(self, user_id: int) -> str:
         """
@@ -304,14 +281,14 @@ class AkenoClient:
         :class:`str`
         """
         try:
-            return self.cache[user_id]["data"]["profile_image_url"]
+            return self.get_index(user_id, "data", "profile_image_url")
         except KeyError:
             user = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/users/{user_id}?user.fields=profile_image_url",
                 headers=self.headers,
             )
-            self.cache[user_id] = user
+            self.save(user_id, user)
             return user["data"]["profile_image_url"]
 
     async def fetch_user_created_at(self, user_id: int) -> str:
@@ -331,7 +308,7 @@ class AkenoClient:
             f"https://api.twitter.com/2/users/{user_id}?user.fields=created_at",
             headers=self.headers,
         )
-        self.cache[user_id] = user
+        self.save(user_id, user)
         return user["data"]["created_at"]
 
     def get_user_created_at(self, user_id: int) -> str:
@@ -346,12 +323,11 @@ class AkenoClient:
         -------
         :class:`str`
         """
-        return self.cache[user_id]["data"]["created_at"]
+        return self.get_index(user_id, "data", "created_at")
 
     async def getch_user_created_at(self, user_id: int) -> str:
         """
         Tries to get the users date of account creation, if it fails it will make a request to the api.
-
         Parameters
         ----------
         user_id: :class:`int` id of the user you're trying to get or fetch.
@@ -361,14 +337,14 @@ class AkenoClient:
         :class:`str`
         """
         try:
-            return self.cache[user_id]["data"]["created_at"]
+            return self.get_index(user_id, "data", "created_at")
         except KeyError:
             user = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/users/{user_id}?user.fields=created_at",
                 headers=self.headers,
             )
-            self.cache[user_id] = user
+            self.save(user_id, user)
             return user["data"]["created_at"]
 
     async def fetch_user_metrics(self, user_id: int) -> str:
@@ -388,7 +364,7 @@ class AkenoClient:
             f"https://api.twitter.com/2/users/{user_id}?user.fields=public_metrics",
             headers=self.headers,
         )
-        self.cache[user_id] = user
+
         return user["data"]["public_metrics"]
 
     def get_user_metrics(self, user_id: int) -> str:
@@ -403,7 +379,7 @@ class AkenoClient:
         -------
         :class:`str`
         """
-        return self.cache[user_id]["data"]["public_metrics"]
+        return self.get_index(user_id, "data", "public_metrics")
 
     async def getch_user_metrics(self, user_id: int) -> str:
         """
@@ -418,14 +394,14 @@ class AkenoClient:
         :class:`str`
         """
         try:
-            return self.cache[user_id]["data"]["public_metrics"]
+            return self.get_index(user_id, "data", "public_metrics")
         except KeyError:
             user = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/users/{user_id}?user.fields=public_metrics",
                 headers=self.headers,
             )
-            self.cache[user_id] = user
+            self.save(user_id, user)
             return user["data"]["public_metrics"]
 
     async def retweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
@@ -510,7 +486,7 @@ class AkenoClient:
             f"https://api.twitter.com/2/tweets/{tweet_id}?tweet.fields=created_at",
             headers=self.headers,
         )
-        self.cache[tweet_id] = tweet
+        self.save(tweet_id, tweet)
         return tweet["data"]["created_at"]
 
     def get_tweet_created_at(self, tweet_id: int) -> str:
@@ -525,7 +501,7 @@ class AkenoClient:
         -------
         :class:`str`
         """
-        return self.cache[tweet_id]["data"]["created_at"]
+        return self.get_index(tweet_id, "data", "created_at")
 
     async def getch_tweet_created_at(self, tweet_id: int) -> str:
         """
@@ -540,14 +516,14 @@ class AkenoClient:
         :class:`str`
         """
         try:
-            return self.cache[tweet_id]["data"]["created_at"]
+            return self.get_index(tweet_id, "data", "created_at")
         except KeyError:
             tweet = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/tweets/{tweet_id}?user.fields=created_at",
                 headers=self.headers,
             )
-            self.cache[tweet_id] = tweet
+            self.save(tweet_id, tweet)
             return tweet["data"]["created_at"]
 
     async def fetch_tweet_metrics(self, tweet_id: int) -> str:
@@ -567,7 +543,7 @@ class AkenoClient:
             f"https://api.twitter.com/2/tweets/{tweet_id}?tweet.fields=public_metrics",
             headers=self.headers,
         )
-        self.cache[tweet_id] = tweet
+        self.save(tweet_id, tweet)
         return tweet["data"]["public_metrics"]
 
     def get_tweet_metrics(self, tweet_id: int) -> str:
@@ -582,7 +558,7 @@ class AkenoClient:
         -------
         :class:`str`
         """
-        return self.cache[tweet_id]["data"]["public_metrics"]
+        return self.get_index(tweet_id, "data", "public_metrics")
 
     async def getch_tweet_metrics(self, tweet_id: int) -> str:
         """
@@ -597,14 +573,14 @@ class AkenoClient:
         :class:`str`
         """
         try:
-            return self.cache[tweet_id]["data"]["public_metrics"]
+            return self.get_index(tweet_id, "data", "public_metrics")
         except KeyError:
             tweet = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/tweets/{tweet_id}?tweet.fields=public_metrics",
                 headers=self.headers,
             )
-            self.cache[tweet_id] = tweet
+            self.save(tweet_id, tweet)
             return tweet["data"]["public_metrics"]
 
     async def fetch_tweet_source(self, tweet_id: int) -> str:
@@ -624,7 +600,7 @@ class AkenoClient:
             f"https://api.twitter.com/2/tweets/{tweet_id}?tweet.fields=source",
             headers=self.headers,
         )
-        self.cache[tweet_id] = tweet
+        self.save(tweet_id, tweet)
         return tweet["data"]["source"]
 
     def get_tweet_source(self, tweet_id: int) -> str:
@@ -639,7 +615,7 @@ class AkenoClient:
         -------
         :class:`str`
         """
-        return self.cache[tweet_id]["data"]["source"]
+        return self.get_index(tweet_id, "data", "source")
 
     async def getch_tweet_source(self, tweet_id: int) -> str:
         """
@@ -654,12 +630,12 @@ class AkenoClient:
         :class:`str`
         """
         try:
-            return self.cache[tweet_id]["data"]["source"]
+            return self.get_index(tweet_id, "data", "source")
         except KeyError:
             tweet = await self.request(
                 "GET",
                 f"https://api.twitter.com/2/tweets/{tweet_id}?tweet.fields=source",
                 headers=self.headers,
             )
-            self.cache[tweet_id] = tweet
+            self.save(tweet_id, tweet)
             return tweet["data"]["source"]
