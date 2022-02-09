@@ -1,7 +1,7 @@
 from typing import Any
 
 
-from akenohttpclient import HttpClient
+from httpclient import HttpClient
 
 from cache import Cache
 
