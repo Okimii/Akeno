@@ -12,7 +12,7 @@ class AkenoClient(HttpClient, Cache):
 
     Parameters
     ----------
-    token: :class:`str` Barer token used for authorization
+    token: :class:`str` Bearer token used for authorization
     """
 
     def __init__(self, token: str) -> None:
