@@ -1,8 +1,7 @@
-from aiohttp import ClientSession
-
 from typing import Any
-
 import asyncio
+
+from aiohttp import ClientSession
 
 __all__ = ("HttpClient",)
 
