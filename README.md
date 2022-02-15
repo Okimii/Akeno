@@ -1,6 +1,6 @@
 # Akeno
 
-[![Join our Discord server!](https://img.shields.io/badge/discord-Akeno-blueviolet)](https://discord.gg/bEevwUGMTG) [![documentation!](https://img.shields.io/badge/Docs-documentation-informational)](https://akeno.readthedocs.io/en/latest/)
+[![Join our Discord server!](https://img.shields.io/badge/Discord-akeno-blueviolet)](https://discord.gg/bEevwUGMTG) [![documentation!](https://img.shields.io/badge/Docs-documentation-informational)](https://akeno.readthedocs.io/en/latest/)
 
 Akeno is an async api wrapper for the twitter api made by: [okimii#0434](https://discord.com/users/637458038915203127)
 

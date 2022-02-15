@@ -1,17 +1,17 @@
-from typing import Any
-import asyncio
-
 from aiohttp import ClientSession
+
+from typing import Any
+
+import asyncio
 
 __all__ = ("HttpClient",)
 
 
 class HttpClient:
-    def __init__(self, token: str) -> None:
-        self.token = token
+    def __init__(self) -> None:
         self.lock = asyncio.Lock()
         self.headers = {"Authorization": f"Bearer {self.token}"}
-
+    
     async def __aenter__(self) -> "HttpClient":
         return self
 
