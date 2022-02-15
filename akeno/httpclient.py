@@ -4,15 +4,15 @@ from typing import Any
 
 import asyncio
 
-__all__ = ("HttpClient",)
+__all__ = ("HTTPClient",)
 
 
-class HttpClient:
+class HTTPClient:
     def __init__(self) -> None:
         self.lock = asyncio.Lock()
         self.headers = {"Authorization": f"Bearer {self.token}"}
     
-    async def __aenter__(self) -> "HttpClient":
+    async def __aenter__(self) -> "HTTPClient":
         return self
 
     async def __aexit__(self, *_: Any) -> None:
@@ -25,10 +25,10 @@ class HttpClient:
         self, method: str, endpoint: str, headers: dict
     ) -> dict[Any, Any]:
         self.session = ClientSession(headers=headers)
-        resp = await self.session.request(method, endpoint)
         try:
-            if resp.headers["x-rate-limit-remaining"] == 1:
-                await self.lock.acquire()
+            await self.lock.acquire()
+            resp = await self.session.request(method, endpoint)
+            if resp.headers["x-rate-limit-remaining"] == 0:
                 await asyncio.sleep(900)
                 self.lock.release()
         except KeyError:
