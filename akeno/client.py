@@ -1,7 +1,8 @@
 from typing import Any
 
-from .cache import Cache
-from .httpclient import HTTPClient
+from httpclient import HTTPClient
+from cache import Cache
+
 
 __all__ = ("AkenoClient",)
 
