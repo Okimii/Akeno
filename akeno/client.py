@@ -6,7 +6,7 @@ from .httpclient import HTTPClient
 __all__ = ("AkenoClient",)
 
 
-class AkenoClient(HttpClient, Cache):
+class AkenoClient(HTTPClient, Cache):
     """
     A main client class.
 
