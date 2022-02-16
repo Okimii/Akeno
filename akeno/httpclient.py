@@ -31,6 +31,7 @@ class HTTPClient:
             if resp.headers["x-rate-limit-remaining"] == 0:
                 await asyncio.sleep(900)
                 self.lock.release()
+            self.lock.release()
         except KeyError:
             await self.session.close()
             return await resp.json()
