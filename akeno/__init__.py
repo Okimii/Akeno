@@ -1,3 +1,3 @@
 from .client import *
-from .httpclient import *
+from .http import *
 from .cache import *
