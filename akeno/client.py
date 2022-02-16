@@ -1,7 +1,7 @@
 from typing import Any
 
-from .cache import Cache
-from .httpclient import HTTPClient
+from cache import Cache
+from httpclient import HTTPClient
 
 __all__ = ("AkenoClient",)
 
@@ -17,9 +17,9 @@ class AkenoClient(HTTPClient, Cache):
 
     def __init__(self, token: str) -> None:
         self.token = token
-        HttpClient.__init__(self)
+        HTTPClient.__init__(self)
         Cache.__init__(self)
-        setattr(HttpClient, "token", token)
+        setattr(HTTPClient, "token", token)
 
     async def fetch_tweet(self, tweet_id: int) -> dict[Any, Any]:
         """
