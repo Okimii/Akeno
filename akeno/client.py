@@ -1,7 +1,7 @@
 from typing import Any
 
-from .http import HTTPClient
-from .cache import Cache
+from httpclient import HTTPClient
+from cache import Cache
 
 
 __all__ = ("AkenoClient",)
@@ -93,7 +93,7 @@ class AkenoClient(HTTPClient, Cache):
         """
         tweets = await self.request(
             "GET",
-            f"https://api.twitter.com/2/tweets?ids={','.join([str(i) for i in tweet_ids])}",
+            f"https://api.twitter.com/2/tweets?ids={','.join(list(map(str, [i for i in tweet_ids])))}",
             headers=self.headers,
         )
         self.save(tweet_ids, tweets)
@@ -116,7 +116,7 @@ class AkenoClient(HTTPClient, Cache):
         except KeyError:
             tweets = await self.request(
                 "GET",
-                f"https://api.twitter.com/2/tweets?ids={','.join([str(i) for i in tweet_ids])}",
+                f"https://api.twitter.com/2/tweets?ids={','.join(list(map(str, [i for i in tweet_ids])))}",
                 headers=self.headers,
             )
             self.save(tweet_ids, tweets)
