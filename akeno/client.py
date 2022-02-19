@@ -1,6 +1,6 @@
 from typing import Any
 
-from httpclient import HTTPClient
+from http import HTTPClient
 from cache import Cache
 
 
