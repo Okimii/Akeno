@@ -1,8 +1,8 @@
+import asyncio
 from aiohttp import ClientSession
 
 from typing import Any
 
-import asyncio
 
 __all__ = ("HTTPClient",)
 
@@ -11,15 +11,6 @@ class HTTPClient:
     def __init__(self) -> None:
         self.lock = asyncio.Lock()
         self.headers = {"Authorization": f"Bearer {self.token}"}
-    
-    async def __aenter__(self) -> "HTTPClient":
-        return self
-
-    async def __aexit__(self, *_: Any) -> None:
-        await self.close()
-
-    async def close(self) -> None:
-        await self.session.close()
 
     async def request(
         self, method: str, endpoint: str, headers: dict
