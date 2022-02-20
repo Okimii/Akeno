@@ -12,7 +12,7 @@ class HTTPClient:
         self.lock = asyncio.Lock()
         self.headers = {"Authorization": f"Bearer {self.token}"}
 
-    async def request(
+    async def _request(
         self, method: str, endpoint: str, headers: dict
     ) -> dict[Any, Any]:
         self.session = ClientSession(headers=headers)
