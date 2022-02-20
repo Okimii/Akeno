@@ -1,23 +1,26 @@
-from typing import Any, Optional
+from typing import Any, Optional, Dict
 
 __all__ = ("Cache",)
 
 
 class Cache:
     def __init__(self):
-        self.cache: dict[Any, dict[Any, Any]] = {}
+        self.cache: Dict[Any, Dict[Any, Any]] = {}
 
-    def save(self, key: Any, value: dict[Any, Any]) -> None:
+    def __dict__(self) -> Dict[Any, Any]:
+        return self.cache
+
+    def __len__(self) -> int:
+        return len(self.cache)
+
+    def save(self, key: Any, value: Dict[Any, Any]) -> None:
         self.cache[key] = value
 
-    def get(self, key: int) -> Optional[dict[Any, Any]]:
-        try:
-            return self.cache[key]
-        except KeyError:
-            return None
+    def get(self, key: int) -> Optional[Dict[Any, Any]]:
+        return self.cache.get(key)
 
     @property
-    def all_cache_items(self) -> Optional[dict[Any, dict[Any, Any]]]:
+    def items(self) -> Optional[Dict[Any, Dict[Any, Any]]]:
         return self.cache
 
     def get_index(self, key: int, index0: str, index1: str) -> Optional[str]:
