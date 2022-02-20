@@ -7,17 +7,20 @@ class Cache:
     def __init__(self):
         self.cache: dict[Any, dict[Any, Any]] = {}
 
+    def __dict__(self) -> dict[Any, Any]:
+        return self.cache
+
+    def __len__(self) -> int:
+        return len(self.cache)
+
     def save(self, key: Any, value: dict[Any, Any]) -> None:
         self.cache[key] = value
 
     def get(self, key: int) -> Optional[dict[Any, Any]]:
-        try:
-            return self.cache[key]
-        except KeyError:
-            return None
+        return self.cache.get(key)
 
     @property
-    def all_cache_items(self) -> Optional[dict[Any, dict[Any, Any]]]:
+    def items(self) -> Optional[dict[Any, Dict[Any, Any]]]:
         return self.cache
 
     def get_index(self, key: int, index0: str, index1: str) -> Optional[str]:
