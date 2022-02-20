@@ -20,7 +20,7 @@ class Cache:
         return self.cache.get(key)
 
     @property
-    def items(self) -> Optional[dict[Any, Dict[Any, Any]]]:
+    def items(self) -> Optional[dict[Any, dict[Any, Any]]]:
         return self.cache
 
     def get_index(self, key: int, index0: str, index1: str) -> Optional[str]:
