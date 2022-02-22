@@ -12,12 +12,6 @@ class User:
     def __init__(self, user_id: int) -> None:
         self.user_id = user_id
 
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.name, self.id
-
     @classmethod
     async def create(cls, user_id: int) -> "User":
 
