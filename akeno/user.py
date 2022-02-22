@@ -1,5 +1,5 @@
-import datetime
-from typing import Any, Optional
+from datetime import datetime
+from typing import Any
 
 from .http import HTTPClient
 
@@ -164,14 +164,14 @@ class User:
         return self.user[1][0]["listed_count"]
 
     @property
-    def created_at(self) -> datetime.datetime:
+    def created_at(self) -> datetime:
 
         """
         Returns the UTC datetime that the user account was created at.
 
         Returns
         -------
-        :class:`datetime.datetime`
+        :class:`datetime`
         """
         return self.user[1][0]["created_at"]
 
