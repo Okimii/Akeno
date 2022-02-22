@@ -14,7 +14,6 @@ class User:
     ----------
     user_id: :class:`int` The id of the user.
     """
-    user: dict[int, dict[Any, Any]] = {}
 
     def __init__(self, user_id: int) -> None:
         self.user_id = user_id
@@ -27,12 +26,13 @@ class User:
 
     @classmethod
     async def create(cls, user_id: int) -> "User":
-
         """
         Creates a User object.
+        
         Parameters
         ----------
         user_id: :class:`int` The user id.
+        
         Returns
         -------
         :class:`User`
@@ -41,14 +41,15 @@ class User:
             "GET", f"https://api.twitter.com/1.1/users/lookup.json?user_id={user_id}",
             headers={"Authorization": f"Bearer {HTTPClient().token}"}
         )
+        cls.user: dict[int, dict[Any, Any]] = {}
         cls.user[1] = user
         return cls(user_id)
 
     @property
     def all_attrs(self) -> dict[int, dict[Any, Any]]:
-
         """
         Returns all attributes for the user
+        
         Returns
         -------
         :class:`dict`
@@ -57,9 +58,9 @@ class User:
 
     @property
     def id(self) -> int:
-
         """
         Returns the user's id.
+        
         Returns
         -------
         :class:`int`
@@ -68,9 +69,9 @@ class User:
 
     @property
     def name(self) -> str:
-
         """
         Returns the user's name.
+        
         Returns
         -------
         :class:`str`
@@ -79,9 +80,9 @@ class User:
 
     @property
     def handle(self) -> str:
-
         """
         Returns the user's handle.
+        
         Returns
         -------
         :class:`dict`
@@ -90,9 +91,9 @@ class User:
 
     @property
     def location(self) -> str:
-
         """
         Returns the user's defined location.
+        
         Returns
         -------
         :class:`str`
@@ -101,9 +102,9 @@ class User:
 
     @property
     def description(self) -> str:
-
         """
         Returns the user's description.
+        
         Returns
         -------
         :class:`str`
@@ -112,9 +113,9 @@ class User:
 
     @property
     def url(self) -> str:
-
         """
         Returns the user's defined url.
+        
         Returns
         -------
         :class:`str`
@@ -123,9 +124,9 @@ class User:
 
     @property
     def protected(self) -> bool:
-
         """
         Returns True if a user has chosen to protect their tweets.
+        
         Returns
         -------
         :class:`bool`
@@ -134,9 +135,9 @@ class User:
 
     @property
     def follower_count(self) -> int:
-
         """
         Returns a user's follower count.
+        
         Returns
         -------
         :class:`int`
@@ -145,9 +146,9 @@ class User:
 
     @property
     def following_count(self) -> int:
-
         """
         Returns how many user's this account is following.
+        
         Returns
         -------
         :class:`int`
@@ -156,9 +157,9 @@ class User:
 
     @property
     def listed_count(self) -> int:
-
         """
         Returns the number of of public lists that the user is a member of.
+        
         Returns
         -------
         :class:`int`
@@ -167,9 +168,9 @@ class User:
 
     @property
     def created_at(self) -> datetime:
-
         """
-        Returns the UTC datetime when the user account was created at.
+        Returns the UTC datetime that the user account was created at.
+        
         Returns
         -------
         :class:`datetime`
@@ -178,9 +179,9 @@ class User:
 
     @property
     def favourite_count(self) -> int:
-
         """
         Returns how many tweets the user has liked in the accounts lifetime.
+        
         Returns
         -------
         :class:`int`
@@ -189,9 +190,9 @@ class User:
 
     @property
     def verified(self) -> bool:
-
         """
         Returns True if a user is verified.
+        
         Returns
         -------
         :class:`bool`
@@ -200,9 +201,9 @@ class User:
 
     @property
     def tweet_count(self) -> int:
-
         """
         Returns how many tweets (including retweets) have been sent by the user.
+        
         Returns
         -------
         :class:`int`
@@ -211,10 +212,9 @@ class User:
 
     @property
     def status(self) -> dict[Any, Any]:
-        # Return a Status object when one gets implemented.
-
         """
         Returns data about the user's status.
+        
         Returns
         -------
         :class:`dict`
@@ -223,9 +223,9 @@ class User:
 
     @property
     def avatar(self) -> str:
-
         """
         Returns the user's profile image url.
+        
         Returns
         -------
         :class:`str`
@@ -234,9 +234,9 @@ class User:
 
     @property
     def banner(self) -> str:
-
         """
         Returns the user's profile banner url.
+        
         Returns
         -------
         :class:`str`
