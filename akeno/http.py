@@ -13,7 +13,7 @@ class HTTPClient:
         self.headers = {"Authorization": f"Bearer {self.token}"}
 
     async def _request(
-        self, method: str, endpoint: str, headers: dict
+        self, method: str, endpoint: str, headers: dict[Any, Any]
     ) -> dict[Any, Any]:
         self.session = ClientSession(headers=headers)
         try:
