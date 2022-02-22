@@ -7,7 +7,6 @@ class Cache:
     def __init__(self):
         self.cache: dict[Any, dict[Any, Any]] = {}
 
-    
     def __dict__(self) -> dict[Any, Any]:
         return self.cache
 
