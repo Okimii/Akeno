@@ -7,6 +7,13 @@ class Cache:
     def __init__(self):
         self.cache: dict[Any, dict[Any, Any]] = {}
 
+    
+    def __dict__(self) -> dict[Any, Any]:
+        return self.cache
+
+    def __len__(self) -> int:
+        return len(self.cache)
+
     def _save(self, key: Any, value: dict[Any, Any]) -> None:
         self.cache[key] = value
 
