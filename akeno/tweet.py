@@ -71,7 +71,7 @@ class Tweet:
     @property
     def all_attrs(self) -> dict[int, dict[Any, Any]]:
         """
-        Returns all attributes for the tweet.
+        All attributes for the tweet.
 
         Returns
         -------
@@ -82,7 +82,7 @@ class Tweet:
     @property
     def created_at(self) -> datetime:
         """
-        Returns the UTC datetime when the user account was created at.
+        The UTC datetime when the user account was created at.
 
         Returns
         -------
@@ -93,7 +93,7 @@ class Tweet:
     @property
     def author_profile_image(self) -> str:
         """
-        Returns the author's profile image as a url.
+        The author's profile image as a url.
 
         Returns
         -------
@@ -104,7 +104,7 @@ class Tweet:
     @property
     def id(self) -> int:
         """
-        Returns the tweet's id.
+        The tweet's id.
 
         Returns
         -------
@@ -115,7 +115,7 @@ class Tweet:
     @property
     def text(self) -> str:
         """
-        Returns the tweet's text.
+        The tweet's text.
 
         Returns
         -------
@@ -126,7 +126,7 @@ class Tweet:
     @property
     def str_id(self) -> str:
         """
-        Returns the tweet's id as a str.
+        The tweet's id as a str.
 
         Returns
         -------
@@ -137,7 +137,7 @@ class Tweet:
     @property
     def hastags(self) -> list[str]:
         """
-        Returns the a list of hashtags in a tweet.
+        The a list of hashtags in a tweet.
 
         Returns
         -------
@@ -148,7 +148,7 @@ class Tweet:
     @property
     def user_mentions(self) -> list[str]:
         """
-        Returns the a list of user mentions in a tweet.
+        The a list of user mentions in a tweet.
 
         Returns
         -------
@@ -159,7 +159,7 @@ class Tweet:
     @property
     def urls(self) -> list[str]:
         """
-        Returns the a list of urls in a tweet.
+        The a list of urls in a tweet.
 
         Returns
         -------
@@ -170,7 +170,7 @@ class Tweet:
     @property
     def symbols(self) -> list[str]:
         """
-        Returns the a list of symbols in a tweet.
+        The a list of symbols in a tweet.
 
         Returns
         -------
@@ -181,7 +181,7 @@ class Tweet:
     @property
     def source(self) -> str:
         """
-        Returns the source of where a tweet was sent.
+        The source of where a tweet was sent.
 
         Returns
         -------
@@ -192,7 +192,7 @@ class Tweet:
     @property
     def author_id(self) -> int:
         """
-        Returns the author's id.
+        The author's id.
 
         Returns
         -------
@@ -203,7 +203,7 @@ class Tweet:
     @property
     def author_str_id(self) -> str:
         """
-        Returns the author's id as a str.
+        The author's id as a str.
 
         Returns
         -------
@@ -214,7 +214,7 @@ class Tweet:
     @property
     def author_name(self) -> str:
         """
-        Returns the author's name.
+        The author's name.
 
         Returns
         -------
@@ -225,7 +225,7 @@ class Tweet:
     @property
     def author_handle(self) -> str:
         """
-        Returns the author's handle.
+        The author's handle.
 
         Returns
         -------
@@ -236,7 +236,7 @@ class Tweet:
     @property
     def author_location(self) -> str:
         """
-        Returns the author's location.
+        The author's location.
 
         Returns
         -------
@@ -247,7 +247,7 @@ class Tweet:
     @property
     def author_bio(self) -> str:
         """
-        Returns the author's bio or description.
+        The author's bio or description.
 
         Returns
         -------
@@ -258,7 +258,7 @@ class Tweet:
     @property
     def author_bio_urls(self) -> list[str]:
         """
-        Returns a list of the urls in the author's bio or description.
+        A list of the urls in the author's bio or description.
 
         Returns
         -------
@@ -269,7 +269,7 @@ class Tweet:
     @property
     def author_protected(self) -> bool:
         """
-        Returns if the author is protected.
+        Checks if the author is protected.
 
         Returns
         -------
@@ -280,7 +280,7 @@ class Tweet:
     @property
     def author_followers_count(self) -> int:
         """
-        Returns the author's followers count.
+        The author's followers count.
 
         Returns
         -------
@@ -291,7 +291,7 @@ class Tweet:
     @property
     def author_friends_count(self) -> int:
         """
-        Returns the author's friends count.
+        The author's friends count.
 
         Returns
         -------
@@ -302,7 +302,7 @@ class Tweet:
     @property
     def author_listed_count(self) -> int:
         """
-        Returns the author's listed count.
+        The author's listed count.
 
         Returns
         -------
@@ -313,7 +313,7 @@ class Tweet:
     @property
     def author_created_at(self) -> datetime:
         """
-        Returns the UTC datetime when the author account was created at.
+        The UTC datetime when the author account was created at.
 
         Returns
         -------
@@ -324,7 +324,7 @@ class Tweet:
     @property
     def author_favourites_count(self) -> int:
         """
-        Returns the author's favourites count.
+        The author's favourites count.
 
         Returns
         -------
@@ -335,7 +335,7 @@ class Tweet:
     @property
     def author_geo_enabled(self) -> bool:
         """
-        Returns if the author's geo is enabled.
+        Checks if the author's geo is enabled.
 
         Returns
         -------
@@ -346,7 +346,7 @@ class Tweet:
     @property
     def author_is_verified(self) -> bool:
         """
-        Returns if the author is verified.
+        Checks if the author is verified.
 
         Returns
         -------
@@ -357,7 +357,7 @@ class Tweet:
     @property
     def author_profile_background_color(self) -> str:
         """
-        Returns the author's profile background color.
+        The author's profile background color.
 
         Returns
         -------
@@ -368,7 +368,7 @@ class Tweet:
     @property
     def author_profile_background_image_url(self) -> str:
         """
-        Returns the author's profile background image url.
+        The author's profile background image url.
 
         Returns
         -------
@@ -379,7 +379,7 @@ class Tweet:
     @property
     def author_profile_image_url(self) -> str:
         """
-        Returns the author's profile image url.
+        The author's profile image url.
 
         Returns
         -------
@@ -390,7 +390,7 @@ class Tweet:
     @property
     def author_retweet_count(self) -> int:
         """
-        Returns the author's retweet count.
+        The author's retweet count.
 
         Returns
         -------
