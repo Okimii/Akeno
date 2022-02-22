@@ -169,7 +169,7 @@ class User:
     def created_at(self) -> datetime:
 
         """
-        Returns the UTC datetime that the user account was created at.
+        Returns the UTC datetime when the user account was created at.
         Returns
         -------
         :class:`datetime`
