@@ -4,3 +4,4 @@ __author__ = "Okimii"
 from .client import *
 from .http import *
 from .cache import *
+from .user import *
