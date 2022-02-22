@@ -16,7 +16,7 @@ class Cache:
     def save(self, key: Any, value: dict[Any, Any]) -> None:
         self.cache[key] = value
 
-    def get(self, key: int) -> Optional[dict[Any, Any]]:
+    def get(self, key: Any) -> Optional[dict[Any, Any]]:
         return self.cache.get(key)
 
     @property
