@@ -3,6 +3,7 @@ from typing import Any
 
 from .http import HTTPClient
 
+__all__ = ("User",)
 
 class User:
     user: dict[int, dict[Any, Any]] = {}
