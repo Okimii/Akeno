@@ -13,7 +13,9 @@ Welcome to Akeno
 
 .. autoclass:: AkenoClient
    :members:
-
+   
+.. autoclass:: User
+   :members:
 ==================
 
 * :ref:`genindex`
