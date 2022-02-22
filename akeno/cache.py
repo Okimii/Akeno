@@ -24,7 +24,7 @@ class Cache:
             return None
 
     @property
-    def all_cache_items(self) -> None | dict[Any, Any]:
+    def all_cache_items(self) -> dict[Any, Any]:
         return self.cache
 
     def _get_index(self, key: int, index: str) -> None | str:
