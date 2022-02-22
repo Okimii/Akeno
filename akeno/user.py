@@ -5,20 +5,20 @@ from .http import HTTPClient
 
 __all__ = ("User",)
 
+
 class User:
     """
     Represents a twitter user.
     
     Parameters
     ----------
-    user_id: :class:`int` the id of the user.
-    
+    user_id: :class:`int` The id of the user.
     """
     user: dict[int, dict[Any, Any]] = {}
 
     def __init__(self, user_id: int) -> None:
         self.user_id = user_id
-
+        
     def __str__(self):
         return self.name
 
@@ -32,7 +32,7 @@ class User:
         Creates a User object.
         Parameters
         ----------
-        user_id
+        user_id: :class:`int` The user id.
         Returns
         -------
         :class:`User`
