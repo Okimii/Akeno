@@ -7,6 +7,14 @@ __all__ = ("User",)
 
 
 class User:
+    """
+    Represents a twitter user.
+    
+    Parameters
+    ----------
+    user_id: :class:`int` the id of the user.
+    
+    """
     user: dict[int, dict[Any, Any]] = {}
 
     def __init__(self, user_id: int) -> None:
