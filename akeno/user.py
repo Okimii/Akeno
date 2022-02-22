@@ -48,7 +48,7 @@ class User:
     @property
     def all_attrs(self) -> dict[int, dict[Any, Any]]:
         """
-        Returns all attributes for the user
+        All attributes for the user
         
         Returns
         -------
@@ -59,7 +59,7 @@ class User:
     @property
     def id(self) -> int:
         """
-        Returns the user's id.
+        The user's id.
         
         Returns
         -------
@@ -70,7 +70,7 @@ class User:
     @property
     def name(self) -> str:
         """
-        Returns the user's name.
+        The user's name.
         
         Returns
         -------
@@ -81,7 +81,7 @@ class User:
     @property
     def handle(self) -> str:
         """
-        Returns the user's handle.
+        The user's handle.
         
         Returns
         -------
@@ -92,7 +92,7 @@ class User:
     @property
     def location(self) -> str:
         """
-        Returns the user's defined location.
+        The user's defined location.
         
         Returns
         -------
@@ -103,7 +103,7 @@ class User:
     @property
     def description(self) -> str:
         """
-        Returns the user's description.
+        The user's description.
         
         Returns
         -------
@@ -114,7 +114,7 @@ class User:
     @property
     def url(self) -> str:
         """
-        Returns the user's defined url.
+        User's defined url.
         
         Returns
         -------
@@ -136,7 +136,7 @@ class User:
     @property
     def follower_count(self) -> int:
         """
-        Returns a user's follower count.
+        User's follower count.
         
         Returns
         -------
@@ -147,7 +147,7 @@ class User:
     @property
     def following_count(self) -> int:
         """
-        Returns how many user's this account is following.
+        How many user's this account is following.
         
         Returns
         -------
@@ -158,7 +158,7 @@ class User:
     @property
     def listed_count(self) -> int:
         """
-        Returns the number of of public lists that the user is a member of.
+        The number of of public lists that the user is a member of.
         
         Returns
         -------
@@ -169,7 +169,7 @@ class User:
     @property
     def created_at(self) -> datetime:
         """
-        Returns the UTC datetime that the user account was created at.
+        The UTC datetime that the user account was created at.
         
         Returns
         -------
@@ -180,7 +180,7 @@ class User:
     @property
     def favourite_count(self) -> int:
         """
-        Returns how many tweets the user has liked in the accounts lifetime.
+        How many tweets the user has liked in the accounts lifetime.
         
         Returns
         -------
@@ -191,7 +191,7 @@ class User:
     @property
     def verified(self) -> bool:
         """
-        Returns True if a user is verified.
+        Checks if the user is verified
         
         Returns
         -------
@@ -202,7 +202,7 @@ class User:
     @property
     def tweet_count(self) -> int:
         """
-        Returns how many tweets (including retweets) have been sent by the user.
+        How many tweets (including retweets) have been sent by the user.
         
         Returns
         -------
@@ -213,7 +213,7 @@ class User:
     @property
     def status(self) -> dict[Any, Any]:
         """
-        Returns data about the user's status.
+        Data about the user's status.
         
         Returns
         -------
@@ -224,7 +224,7 @@ class User:
     @property
     def avatar(self) -> str:
         """
-        Returns the user's profile image url.
+        The user's profile image url.
         
         Returns
         -------
@@ -235,7 +235,7 @@ class User:
     @property
     def banner(self) -> str:
         """
-        Returns the user's profile banner url.
+        The user's profile banner url.
         
         Returns
         -------
