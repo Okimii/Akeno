@@ -1,13 +1,13 @@
 from typing import Any
 
-from .http import HTTPClient
 from .cache import Cache
-
+from .http import HTTPClient
 
 __all__ = ("AkenoClient",)
 
 
 class AkenoClient(HTTPClient, Cache):
+
     """
     A main client class.
 
@@ -23,6 +23,7 @@ class AkenoClient(HTTPClient, Cache):
         setattr(HTTPClient, "token", token)
 
     async def fetch_tweet(self, tweet_id: int) -> dict[Any, Any]:
+
         """
         Makes a request to the api to get a tweet.
 
@@ -56,6 +57,7 @@ class AkenoClient(HTTPClient, Cache):
         return self.get(tweet_id)
 
     async def getch_tweet(self, tweet_id: int) -> dict[Any, Any]:
+
         """
         Tries to get the tweet by id from cache, if it fails it will make a request to the api.
 
@@ -80,6 +82,7 @@ class AkenoClient(HTTPClient, Cache):
             return tweet
 
     async def fetch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
+
         """
         Makes a request to the api to get the tweets.
 
@@ -100,6 +103,7 @@ class AkenoClient(HTTPClient, Cache):
         return tweets
 
     async def getch_tweets(self, *tweet_ids: int) -> dict[Any, Any]:
+
         """
         Tries to get the tweets by id from cache, if it fails it will make a request to the api.
 
@@ -111,6 +115,7 @@ class AkenoClient(HTTPClient, Cache):
         -------
         :class:`dict`
         """
+
         try:
             return self.get(tweet_ids)
         except KeyError:
