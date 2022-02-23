@@ -4,8 +4,7 @@ from datetime import datetime
 
 __all__ = (
     "Tweet",
-)
-
+    )
 
 class Tweet:
     """
