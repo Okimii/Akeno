@@ -1,8 +1,7 @@
-__version__ = "0.0.1-alpha"
+__version__ = "1.0.0-beta"
 __author__ = "Okimii"
 
 from .client import *
 from .http import *
-from .cache import *
 from .user import *
 from .tweet import *
