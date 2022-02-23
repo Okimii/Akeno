@@ -1,5 +1,7 @@
-from datetime import datetime
+from __future__ import annotations
+
 from typing import Any
+from datetime import datetime
 
 from .http import HTTPClient
 
@@ -7,18 +9,17 @@ __all__ = ("User",)
 
 
 class User:
-
     """
     Represents a twitter user.
-    
-    Parameters
-    ----------
-    user_id: :class:`int` The id of the user.
+
+    params
+    ------
+    user_id: int` The id of the user.cd 
     """
 
     def __init__(self, user_id: int) -> None:
         self.user_id = user_id
-        
+
     def __str__(self):
         return self.name
 
@@ -26,46 +27,46 @@ class User:
         return self.name, self.id
 
     @classmethod
-    async def create(cls, user_id: int) -> "User":
-
+    async def create(cls, user_id: int) -> User:
         """
         Creates a User object.
-        
-        Parameters
-        ----------
-        user_id: :class:`int` The user id.
-        
-        Returns
+
+        params
+        ------
+        user_id: int` The user id.
+
+        returns
         -------
-        :class:`User`
+        `User`
         """
 
         user = await HTTPClient().request(
-            "GET", f"https://api.twitter.com/1.1/users/lookup.json?user_id={user_id}",
-            headers={"Authorization": f"Bearer {HTTPClient().token}"}
+            "GET",
+            f"https://api.twitter.com/1.1/users/lookup.json?user_id={user_id}",
+            headers={"Authorization": f"Bearer {HTTPClient().token}"},
         )
         cls.user: dict[int, dict[Any, Any]] = {}
         cls.user[1] = user
         return cls(user_id)
 
     @classmethod
-    async def get_all_attrs_of(user_id: int) -> dict[Any, Any]:
-
+    async def get_all_attrs_of(cls, user_id: int) -> dict[Any, Any]:
         """
         Creates a User object and returns all attributes.
 
-        Parameters
-        ----------
-        user_id: :class:`int` The user id.
+        params
+        ------
+        user_id: int` The user id.
 
-        Returns
+        returns
         -------
-        :class:`dict`
+        dict`
         """
 
-    user = await HTTPClient().request(
-            "GET", f"https://api.twitter.com/1.1/users/lookup.json?user_id={user_id}",
-            headers={"Authorization": f"Bearer {HTTPClient().token}"}
+        user = await HTTPClient().request(
+            "GET",
+            f"https://api.twitter.com/1.1/users/lookup.json?user_id={user_id}",
+            headers={"Authorization": f"Bearer {HTTPClient().token}"},
         )
 
         return cls(user_id), user
@@ -75,10 +76,10 @@ class User:
 
         """
         All attributes for the user
-        
-        Returns
+
+        returns
         -------
-        :class:`dict`
+        dict`
         """
 
         return self.user
@@ -88,10 +89,10 @@ class User:
 
         """
         The user's id.
-        
-        Returns
+
+        returns
         -------
-        :class:`int`
+        `int`
         """
 
         return int(self.user[1][0]["id_str"])
@@ -101,10 +102,10 @@ class User:
 
         """
         The user's name.
-        
-        Returns
+
+        returns
         -------
-        :class:`str`
+        `str`
         """
 
         return self.user[1][0]["name"]
@@ -114,10 +115,10 @@ class User:
 
         """
         The user's handle.
-        
-        Returns
+
+        returns
         -------
-        :class:`dict`
+        dict`
         """
 
         return self.user[1][0]["screen_name"]
@@ -127,10 +128,10 @@ class User:
 
         """
         The user's defined location.
-        
-        Returns
+
+        returns
         -------
-        :class:`str`
+        `str`
         """
 
         return self.user[1][0]["location"]
@@ -140,10 +141,10 @@ class User:
 
         """
         The user's description.
-        
-        Returns
+
+        returns
         -------
-        :class:`str`
+        `str`
         """
 
         return self.user[1][0]["description"]
@@ -153,10 +154,10 @@ class User:
 
         """
         User's defined url.
-        
-        Returns
+
+        returns
         -------
-        :class:`str`
+        `str`
         """
 
         return self.user[1][0]["url"]
@@ -165,11 +166,11 @@ class User:
     def protected(self) -> bool:
 
         """
-        Returns True if a user has chosen to protect their tweets.
-        
-        Returns
+        returns True if a user has chosen to protect their tweets.
+
+        returns
         -------
-        :class:`bool`
+        `bool`
         """
 
         return self.user[1][0]["protected"]
@@ -179,10 +180,10 @@ class User:
 
         """
         User's follower count.
-        
-        Returns
+
+        returns
         -------
-        :class:`int`
+        `int`
         """
 
         return self.user[1][0]["followers_count"]
@@ -192,10 +193,10 @@ class User:
 
         """
         How many user's this account is following.
-        
-        Returns
+
+        returns
         -------
-        :class:`int`
+        `int`
         """
 
         return self.user[1][0]["friends_count"]
@@ -205,10 +206,10 @@ class User:
 
         """
         The number of of public lists that the user is a member of.
-        
-        Returns
+
+        returns
         -------
-        :class:`int`
+        `int`
         """
 
         return self.user[1][0]["listed_count"]
@@ -218,10 +219,10 @@ class User:
 
         """
         The UTC datetime that the user account was created at.
-        
-        Returns
+
+        returns
         -------
-        :class:`datetime`
+        `datetime
         """
 
         return self.user[1][0]["created_at"]
@@ -231,10 +232,10 @@ class User:
 
         """
         How many tweets the user has liked in the accounts lifetime.
-        
-        Returns
+
+        returns
         -------
-        :class:`int`
+        `int`
         """
 
         return self.user[1][0]["favourites_count"]
@@ -244,10 +245,10 @@ class User:
 
         """
         Checks if the user is verified
-        
-        Returns
+
+        returns
         -------
-        :class:`bool`
+        `bool`
         """
 
         return self.user[1][0]["verified"]
@@ -257,10 +258,10 @@ class User:
 
         """
         How many tweets (including retweets) have been sent by the user.
-        
-        Returns
+
+        returns
         -------
-        :class:`int`
+        `int`
         """
 
         return self.user[1][0]["statuses_count"]
@@ -270,10 +271,10 @@ class User:
 
         """
         Data about the user's status.
-        
-        Returns
+
+        returns
         -------
-        :class:`dict`
+        dict`
         """
 
         return self.user[1][0]["status"]
@@ -283,10 +284,10 @@ class User:
 
         """
         The user's profile image url.
-        
-        Returns
+
+        returns
         -------
-        :class:`str`
+        `str`
         """
 
         return self.user[1][0]["profile_image_url_https"]
@@ -296,10 +297,10 @@ class User:
 
         """
         The user's profile banner url.
-        
-        Returns
+
+        returns
         -------
-        :class:`str`
+        `str`
         """
-        
+
         return self.user[1][0]["profile_banner_url"]

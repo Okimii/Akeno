@@ -1,4 +1,4 @@
-from typing import Any
+import typing as t
 
 from .user import User
 from .tweet import Tweet
@@ -8,51 +8,86 @@ __all__ = ("AkenoClient",)
 
 
 class AkenoClient(HTTPClient):
-
     """
-    A main client class.
+    Represents the AkenoClient
+    which handles all interactions
+    and classes.
 
-    Parameters
-    ----------
-    token: :class:`str` Barer token used for authorization
+    params
+    ------
+    `token: str`
+        Bearer token used for to
+        authorize the client user.
     """
 
     def __init__(self, token: str) -> None:
         self.token = token
         HTTPClient.__init__(self)
-        Cache.__init__(self)
         setattr(HTTPClient, "token", token)
 
-    async def fetch_tweet(self, tweet_id: int) -> dict[Any, Any]:
-
+    async def fetch_user(self, user_id: int) -> t.Optional[User]:
         """
-        Makes a request to the api to get a tweet.
+        Attempts to fetch a user
+        from the api.
 
-        Parameters
-        ----------
-        tweet_id: :class:`int` id of the tweet you're trying to fetch.
+        params
+        ------
+        `user_id: int`
+            id of the user attempting
+            to be fetched.
 
-        Returns
+        returns
         -------
-        :class:`Tweet`
+        `user: User`
+            the user returned if
+            found, else None.
         """
 
-        return await Tweet.create(tweet_id)
+        user = await User.create(user_id)
+        return user or None
 
-    async def like_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
-
+    async def fetch_tweet(self, tweet_id: int) -> t.Optional[Tweet]:
         """
-        Likes a tweet for a user.
+        Makes a request to the api to fetch
+        a tweet with `tweet_id`.
 
-        Parameters
-        ----------
-        user_id: :class:`int` your own id to like the given tweet.
-        tweet_id: :class:`int` id of the tweets you're trying to like.
+        params
+        ------
+        `tweet_id: int`
+            id of the tweet attempting
+            to be fetched.
 
-        Returns
+        returns
         -------
-        :class:`dict`
+        `tweet: t.Optional[Tweet]`
+            the tweet that was returned
+            if it was found, else None.
         """
+
+        tweet = await Tweet.create(tweet_id)
+        return tweet or None
+
+    async def like_tweet(self, user_id: int, tweet_id: int) -> dict[t.Any, t.Any]:
+        """
+        Likes a tweet from a user
+        with a user id of `user_id`
+        and the tweet with an id of
+        `tweet_id`.
+
+        params
+        ------
+        `user_id: int`
+            the user id to like the given tweet.
+        `tweet_id: int`
+            id of the tweets you're trying to like.
+
+        returns
+        -------
+        `dict`
+            the response returned when
+            attempting to like the tweet.
+        """
+
         return await self._request(
             "POST",
             f"https://api.twitter.com/2/users/{user_id}/likes/",
@@ -63,55 +98,53 @@ class AkenoClient(HTTPClient):
             },
         )
 
-    async def unlike_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
-
+    async def unlike_tweet(self, user_id: int, tweet_id: int) -> dict[t.Any, t.Any]:
         """
-        Unlikes a tweet for a user.
+        Removes a likes froma tweet
+        with id `tweet_id` and removes
+        the like from a user with
+        a user id of `user_id`.
 
-        Parameters
-        ----------
-        user_id: :class:`int` your own id to like the given tweet.
-        tweet_id: :class:`int` id of the tweets you're trying to like.
+        params
+        ------
+        `user_id: int`
+            the user id to unlike the
+            tweet.
+        `tweet_id: int`
+            id of the tweets attempting
+            to be unliked.
 
-        Returns
+        returns
         -------
-        :class:`dict`
+        `dict`
+            the response returned when
+            attempting to unlike the tweet.
         """
+
         return await self._request(
-            "DELETE",
-            f"https://api.twitter.com/2/users/{user_id}/likes/{tweet_id}",
-            headers=self.headers,
+            "DELETE", f"https://api.twitter.com/2/users/{user_id}/likes/{tweet_id}", headers=self.headers
         )
 
-    async def fetch_user(self, user_id: int) -> dict[Any, Any]:
-
+    async def retweet(self, user_id: int, tweet_id: int) -> dict[t.Any, t.Any]:
         """
-        Makes a request to the api to get a user.
+        A user with user id `user_id`
+        attempting to retweet a tweet
+        with id of `tweet_id`.
 
-        Parameters
-        ----------
-        user_id: :class:`int` id of the user you're trying to fetch.
+        params
+        ------
+        `user_id: int`
+            the user id to retweet the given tweet.
+        `tweet_id: int`
+            tweet is attempting to retweet.
 
-        Returns
+        returns
         -------
-        :class:`User`
+        `dict`
+            the response returned when
+            attempting to retweet the tweet.
         """
-        return await User.create(user_id)
 
-    async def retweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
-
-        """
-        Makes a request to the api to retweet the given tweet.
-
-        Parameters
-        ----------
-        user_id: :class:`int` your'e own id to retweet the given tweet.
-        tweet_id: :class:`int` tweet you're trying to retweet.
-
-        Returns
-        -------
-        :class:`dict`
-        """
         return await self._request(
             "POST",
             f"https://api.twitter.com/2/users/{user_id}/retweets",
@@ -122,46 +155,45 @@ class AkenoClient(HTTPClient):
             },
         )
 
-    async def post_tweet(self, text: str) -> dict[Any, Any]:
-
+    async def post_tweet(self, text: str) -> dict[t.Any, t.Any]:
         """
-        Makes a request to the api to post a tweet.
+        Attempts to post a tweet
+        with a text of `text`.
 
-        Parameters
-        ----------
-        text: :class:`str` the text of the tweet you will post.
+        params
+        ------
+        `text: str`
+            the text of the tweet you will post.
 
-        Returns
+        returns
         -------
-        :class:`dict`
+        `dict`
+            the response returned when
+            attempting to retweet the tweet.
         """
 
         return await self._request(
             "POST",
             f"https://api.twitter.com/2/tweets",
-            headers={
-                "Authorization": f"Bearer {self.token}",
-                "Content-type": "application/json",
-                "text": text,
-            },
+            headers={"Authorization": f"Bearer {self.token}", "Content-type": "application/json", "text": text},
         )
 
-    async def delete_tweet(self, tweet_id: int) -> dict[Any, Any]:
-        
+    async def delete_tweet(self, tweet_id: int) -> dict[t.Any, t.Any]:
         """
-        Makes a request to the api to delete a tweet.
+        Deletes a tweet with an
+        id of `tweet_id`.
 
-        Parameters
-        ----------
-        tweet_id: :class:`int` the tweet id of the tweet you want to delete.
+        params
+        ------
+        `tweet_id: int`
+            the tweet id of the tweet
+            attempting to be deleted.
 
-        Returns
+        returns
         -------
-        :class:`dict`
+        `dict`
+            the response returned when
+            attempting to delete the tweet.
         """
 
-        return await self._request(
-            "DELETE",
-            f"https://api.twitter.com/2/tweets/{tweet_id}",
-            headers=self.headers,
-        )
+        return await self._request("DELETE", f"https://api.twitter.com/2/tweets/{tweet_id}", headers=self.headers)
