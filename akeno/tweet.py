@@ -2,7 +2,7 @@ from http import HTTPClient
 from typing import Any
 from datetime import datetime
 
-__all__(
+__all__ = (
     "Tweet",
 )
 
