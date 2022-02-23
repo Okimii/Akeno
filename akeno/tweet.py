@@ -1,10 +1,11 @@
-from http import HTTPClient
+from .http import HTTPClient
 from typing import Any
 from datetime import datetime
 
 __all__ = (
     "Tweet",
     )
+
 
 class Tweet:
     """
@@ -44,7 +45,7 @@ class Tweet:
     @classmethod
     async def get_all_attrs_of(tweet_id: int) -> dict[Any, Any]:
         """
-        Creates a Tweet object and returns all attributes as raw json.
+        Creates a Tweet object and returns all attributes.
 
         Parameters
         ----------
@@ -52,7 +53,7 @@ class Tweet:
 
         Returns
         -------
-        :class:`Tweet`
+        :class:`dict`
         """
         tweet = await HTTPClient().request(
             "GET",
