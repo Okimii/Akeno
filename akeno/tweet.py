@@ -19,7 +19,7 @@ class Tweet:
     """
 
     def __init__(self, tweet_id: int) -> None:
-        self.id = tweet_id
+        self.t_id = tweet_id
 
     @classmethod
     async def create(cls, tweet_id: int) -> "Tweet":
@@ -36,7 +36,7 @@ class Tweet:
         :class:`Tweet`
         """
 
-        tweet = await HTTPClient().request(
+        tweet = await HTTPClient()._request(
             "GET",
             f"https://api.twitter.com/1.1/statuses/show.json?id={tweet_id}",
             headers={"Authorization": f"Bearer {HTTPClient().token}"},
@@ -46,7 +46,7 @@ class Tweet:
         return cls(tweet_id)
 
     @classmethod
-    async def get_all_attrs_of(tweet_id: int) -> dict[Any, Any]:
+    async def get_all_attrs_of(cls, tweet_id: int) -> tuple["Tweet", dict[Any, Any]]:
 
         """
         Creates a Tweet object and returns all attributes.
@@ -60,7 +60,7 @@ class Tweet:
         :class:`dict`
         """
 
-        tweet = await HTTPClient().request(
+        tweet = await HTTPClient()._request(
             "GET",
             f"https://api.twitter.com/1.1/statuses/show.json?id={tweet_id}",
             headers={"Authorization": f"Bearer {HTTPClient().token}"},
@@ -70,7 +70,7 @@ class Tweet:
     def __str__(self) -> str:
         return self.text
 
-    def __repr__(self) -> str:
+    def __repr__(self) -> tuple[str, str]:
         return self.text, self.str_id
 
     @property
