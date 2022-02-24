@@ -23,7 +23,7 @@ class AkenoClient(HTTPClient):
         HTTPClient.__init__(self)
         setattr(HTTPClient, "token", token)
 
-    async def fetch_tweet(self, tweet_id: int) -> "Tweet":
+    async def fetch_tweet(self, tweet_id: int) -> Tweet:
 
         """
         Makes a request to the api to get a tweet.
@@ -83,7 +83,7 @@ class AkenoClient(HTTPClient):
             headers=self.headers,
         )
 
-    async def fetch_user(self, user_id: int) -> "User":
+    async def fetch_user(self, user_id: int) -> User:
 
         """
         Makes a request to the api to get a user.
