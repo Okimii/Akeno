@@ -40,7 +40,7 @@ class User:
         :class:`User`
         """
 
-        user = await HTTPClient().request(
+        user = await HTTPClient()._request(
             "GET", f"https://api.twitter.com/1.1/users/lookup.json?user_id={user_id}",
             headers={"Authorization": f"Bearer {HTTPClient().token}"}
         )
@@ -49,7 +49,7 @@ class User:
         return cls(user_id)
 
     @classmethod
-    async def get_all_attrs_of(user_id: int) -> dict[Any, Any]:
+    async def get_all_attrs_of(cls, user_id: int) -> tuple["User", dict[Any, Any]]:
 
         """
         Creates a User object and returns all attributes.
@@ -63,10 +63,10 @@ class User:
         :class:`dict`
         """
 
-    user = await HTTPClient().request(
-            "GET", f"https://api.twitter.com/1.1/users/lookup.json?user_id={user_id}",
-            headers={"Authorization": f"Bearer {HTTPClient().token}"}
-        )
+        user = await HTTPClient()._request(
+                "GET", f"https://api.twitter.com/1.1/users/lookup.json?user_id={user_id}",
+                headers={"Authorization": f"Bearer {HTTPClient().token}"}
+            )
 
         return cls(user_id), user
 
