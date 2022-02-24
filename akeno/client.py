@@ -17,10 +17,10 @@ class AkenoClient(HTTPClient):
     token: :class:`str` Barer token used for authorization
     """
 
-    def __init__(self, token: str) -> None:
+    def __init__(self, token: str, client_user_id: int) -> None:
         self.token = token
+        self.user_id = client_user_id
         HTTPClient.__init__(self)
-        Cache.__init__(self)
         setattr(HTTPClient, "token", token)
 
     async def fetch_tweet(self, tweet_id: int) -> dict[Any, Any]:
@@ -39,7 +39,7 @@ class AkenoClient(HTTPClient):
 
         return await Tweet.create(tweet_id)
 
-    async def like_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
+    async def like_tweet(self, tweet_id: int) -> dict[Any, Any]:
 
         """
         Likes a tweet for a user.
@@ -55,7 +55,7 @@ class AkenoClient(HTTPClient):
         """
         return await self._request(
             "POST",
-            f"https://api.twitter.com/2/users/{user_id}/likes/",
+            f"https://api.twitter.com/2/users/{self.user_id}/likes/",
             headers={
                 "Authorization": f"Bearer {self.token}",
                 "Content-type": "application/json",
@@ -63,7 +63,7 @@ class AkenoClient(HTTPClient):
             },
         )
 
-    async def unlike_tweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
+    async def unlike_tweet(self, tweet_id: int) -> dict[Any, Any]:
 
         """
         Unlikes a tweet for a user.
@@ -79,7 +79,7 @@ class AkenoClient(HTTPClient):
         """
         return await self._request(
             "DELETE",
-            f"https://api.twitter.com/2/users/{user_id}/likes/{tweet_id}",
+            f"https://api.twitter.com/2/users/{self.user_id}/likes/{tweet_id}",
             headers=self.headers,
         )
 
@@ -98,7 +98,7 @@ class AkenoClient(HTTPClient):
         """
         return await User.create(user_id)
 
-    async def retweet(self, user_id: int, tweet_id: int) -> dict[Any, Any]:
+    async def retweet(self, tweet_id: int) -> dict[Any, Any]:
 
         """
         Makes a request to the api to retweet the given tweet.
@@ -114,7 +114,7 @@ class AkenoClient(HTTPClient):
         """
         return await self._request(
             "POST",
-            f"https://api.twitter.com/2/users/{user_id}/retweets",
+            f"https://api.twitter.com/2/users/{self.user_id}/retweets",
             headers={
                 "Authorization": f"Bearer {self.token}",
                 "Content-type": "application/json",
