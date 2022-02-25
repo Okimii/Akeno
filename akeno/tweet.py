@@ -45,29 +45,7 @@ class Tweet:
         cls.tweet: dict[int, dict[Any, Any]] = {}
         cls.tweet[1] = tweet
         return cls(tweet_id)
-
-    @classmethod
-    async def get_all_attrs_of(cls, tweet_id: int) -> tuple["Tweet", dict[Any, Any]]:
-
-        """
-        Creates a Tweet object and returns all attributes.
-
-        Parameters
-        ----------
-        tweet_id: :class:`int` The tweet id.
-
-        Returns
-        -------
-        :class:`dict`
-        """
-
-        tweet = await HTTPClient()._request(
-            "GET",
-            f"https://api.twitter.com/1.1/statuses/show.json?id={tweet_id}",
-            headers={"Authorization": f"Bearer {HTTPClient().token}"},
-        )
-        return cls(tweet_id), tweet
-
+        
     def __str__(self) -> str:
         return self.text
 

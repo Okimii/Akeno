@@ -49,28 +49,6 @@ class User:
         cls.user[1] = user
         return cls(user_id)
 
-    @classmethod
-    async def get_all_attrs_of(cls, user_id: int) -> tuple["User", dict[Any, Any]]:
-
-        """
-        Creates a User object and returns all attributes.
-
-        Parameters
-        ----------
-        user_id: :class:`int` The user id.
-
-        Returns
-        -------
-        :class:`dict`
-        """
-
-        user = await HTTPClient()._request(
-                "GET", f"https://api.twitter.com/1.1/users/lookup.json?user_id={user_id}",
-                headers={"Authorization": f"Bearer {HTTPClient().token}"}
-            )
-
-        return cls(user_id), user
-
     @property
     def all_attrs(self) -> dict[int, dict[Any, Any]]:
 
