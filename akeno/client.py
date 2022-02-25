@@ -1,5 +1,5 @@
+from __future__ import annotations
 from typing import Any
-
 from .user import User
 from .tweet import Tweet
 from .http import HTTPClient

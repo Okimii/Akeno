@@ -1,3 +1,4 @@
+from __future__ import annotations
 from .http import HTTPClient
 from typing import Any
 from datetime import datetime
