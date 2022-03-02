@@ -43,7 +43,7 @@ class User:
 
         user = await HTTPClient()._request(
             "GET", f"https://api.twitter.com/1.1/users/lookup.json?user_id={user_id}",
-            headers={"Authorization": f"Bearer {HTTPClient().token}"}
+            {"Authorization": f"Bearer {HTTPClient().token}"}
         )
         cls.user: dict[int, dict[Any, Any]] = {}
         cls.user[1] = user

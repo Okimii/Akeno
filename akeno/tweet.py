@@ -1,4 +1,3 @@
-from __future__ import annotations
 from .http import HTTPClient
 from typing import Any
 from datetime import datetime
@@ -39,13 +38,35 @@ class Tweet:
 
         tweet = await HTTPClient()._request(
             "GET",
-            f"https://api.twitter.com/1.1/statuses/show.json?id={tweet_id}",
-            headers={"Authorization": f"Bearer {HTTPClient().token}"},
+            f"https://api.twitter.com/2/tweets?ids={tweet_id}&tweet.fields=created_at&expansions=author_id&user.fields=created_at",
+            {"Authorization": f"Bearer {HTTPClient().token}"}
         )
         cls.tweet: dict[int, dict[Any, Any]] = {}
         cls.tweet[1] = tweet
         return cls(tweet_id)
-        
+
+    @classmethod
+    async def get_all_attrs_of(cls, tweet_id: int) -> tuple["Tweet", dict[Any, Any]]:
+
+        """
+        Creates a Tweet object and returns all attributes.
+
+        Parameters
+        ----------
+        tweet_id: :class:`int` The tweet id.
+
+        Returns
+        -------
+        :class:`dict`
+        """
+
+        tweet = await HTTPClient()._request(
+            "GET",
+            f"https://api.twitter.com/2/tweets?ids={tweet_id}&tweet.fields=created_at&expansions=author_id&user.fields=created_at",
+            headers={"Authorization": f"Bearer {HTTPClient().token}"},
+        )
+        return cls(tweet_id), tweet
+
     def __str__(self) -> str:
         return self.text
 
