@@ -1,4 +1,4 @@
-# Akeno
+# Akeno [not maintaned]
 
 [![Join our Discord server!](https://img.shields.io/badge/Discord-akeno-blueviolet)](https://discord.gg/bEevwUGMTG) [![documentation!](https://img.shields.io/badge/Docs-documentation-informational)](https://akeno.readthedocs.io/en/latest/)
 
