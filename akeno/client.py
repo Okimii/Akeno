@@ -1,27 +1,29 @@
 from __future__ import annotations
+
 from typing import Any
+
 from .user import User
 from .tweet import Tweet
 from .http import HTTPClient
 
+
 __all__ = ("AkenoClient",)
 
 
-class AkenoClient(HTTPClient):
-
+class AkenoClient:
     """
     A main client class.
 
     Parameters
     ----------
-    token: :class:`str` Barer token used for authorization
+    token: :class:`str`
+        Barer token used for authorization.
     """
 
     def __init__(self, token: str, client_user_id: int) -> None:
         self.token = token
         self.user_id = client_user_id
-        HTTPClient.__init__(self)
-        setattr(HTTPClient, "token", token)
+        self.http = HTTPClient(token)
 
     async def fetch_tweet(self, tweet_id: int) -> Tweet:
 
@@ -36,7 +38,6 @@ class AkenoClient(HTTPClient):
         -------
         :class:`Tweet`
         """
-
         return await Tweet.create(tweet_id)
 
     async def like_tweet(self, tweet_id: int) -> dict[Any, Any]:
@@ -53,7 +54,7 @@ class AkenoClient(HTTPClient):
         -------
         :class:`dict`
         """
-        return await self._request(
+        return await self.http.request(
             "POST",
             f"https://api.twitter.com/2/users/{self.user_id}/likes/",
             headers={
@@ -64,7 +65,6 @@ class AkenoClient(HTTPClient):
         )
 
     async def unlike_tweet(self, tweet_id: int) -> dict[Any, Any]:
-
         """
         Unlikes a tweet for a user.
 
@@ -77,14 +77,13 @@ class AkenoClient(HTTPClient):
         -------
         :class:`dict`
         """
-        return await self._request(
+        return await self.http.request(
             "DELETE",
             f"https://api.twitter.com/2/users/{self.user_id}/likes/{tweet_id}",
             headers=self.headers,
         )
 
     async def fetch_user(self, user_id: int) -> User:
-
         """
         Makes a request to the api to get a user.
 
@@ -99,7 +98,6 @@ class AkenoClient(HTTPClient):
         return await User.create(user_id)
 
     async def retweet(self, tweet_id: int) -> dict[Any, Any]:
-
         """
         Makes a request to the api to retweet the given tweet.
 
@@ -112,7 +110,7 @@ class AkenoClient(HTTPClient):
         -------
         :class:`dict`
         """
-        return await self._request(
+        return await self.http.request(
             "POST",
             f"https://api.twitter.com/2/users/{self.user_id}/retweets",
             headers={
@@ -123,7 +121,6 @@ class AkenoClient(HTTPClient):
         )
 
     async def post_tweet(self, text: str) -> dict[Any, Any]:
-
         """
         Makes a request to the api to post a tweet.
 
@@ -135,8 +132,7 @@ class AkenoClient(HTTPClient):
         -------
         :class:`dict`
         """
-
-        return await self._request(
+        return await self.http.request(
             "POST",
             f"https://api.twitter.com/2/tweets",
             headers={
@@ -147,7 +143,6 @@ class AkenoClient(HTTPClient):
         )
 
     async def delete_tweet(self, tweet_id: int) -> dict[Any, Any]:
-        
         """
         Makes a request to the api to delete a tweet.
 
@@ -159,8 +154,7 @@ class AkenoClient(HTTPClient):
         -------
         :class:`dict`
         """
-
-        return await self._request(
+        return await self.http.request(
             "DELETE",
             f"https://api.twitter.com/2/tweets/{tweet_id}",
             headers=self.headers,
